@@ -2,9 +2,13 @@
   "name": "sb-fe",
   "version": "1.0.0",
   "description": "Stampbook frontend",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "private": true,
+  "devDependencies": {
+    "react-native-scripts": "1.14.0",
+    "jest-expo": "~27.0.0",
+    "react-test-renderer": "16.3.1",
+    "eslint": "^5.3.0",
+    "eslint-plugin-react": "^7.11.1"
   },
   "repository": {
     "type": "git",
@@ -16,8 +20,20 @@
     "url": "https://github.com/nc-ateam/sb-fe/issues"
   },
   "homepage": "https://github.com/nc-ateam/sb-fe#readme",
-  "devDependencies": {
-    "eslint": "^5.3.0",
-    "eslint-plugin-react": "^7.11.1"
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "expo": "^27.0.1",
+    "react": "16.3.1",
+    "react-native": "~0.55.2"
   }
 }
