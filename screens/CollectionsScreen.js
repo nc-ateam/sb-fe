@@ -1,10 +1,16 @@
 import React from "react";
-import { View } from "@shoutem/ui";
+import { View, NavigationBar, Icon, Title } from "@shoutem/ui";
 
 const CollectionsScreen = () => {
   return (
     <View>
-      <Text>Collections screen</Text>
+      <NavigationBar
+        leftComponent={<Icon name="sidebar" />}
+        centerComponent={<Title>Collections</Title>}
+      />
+      {/* <Button onPress={() => props.navigation.navigate("Achievements")}>
+        <Text>Go to achievements</Text>
+      </Button> */}
     </View>
   );
 };

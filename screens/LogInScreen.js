@@ -8,12 +8,17 @@ class LogInScreen extends Component {
     username: "",
     password: ""
   };
+
+  handleLogIn = () => {
+    this.props.navigation.navigate("Collections");
+  };
+
   render() {
     if (!this.state.fontsAreLoaded) {
       return <AppLoading />;
     }
     return (
-      <View>
+      <View styleName="clear">
         <Heading>StampBook</Heading>
         <Text>Username: </Text>{" "}
         <TextInput
@@ -33,7 +38,7 @@ class LogInScreen extends Component {
           secureTextEntry
         />
         <View>
-          <Button>
+          <Button onPress={this.handleLogIn}>
             <Text>SUBMIT</Text>
           </Button>
         </View>

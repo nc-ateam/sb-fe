@@ -1,20 +1,17 @@
 import React, { Component } from "react";
 import { View, NavigationBar, Icon, Title } from "@shoutem/ui";
 
-class MapScreen extends Component {
+class UserSettingsScreen extends Component {
   render() {
     return (
       <View>
         <NavigationBar
           leftComponent={<Icon name="sidebar" />}
-          centerComponent={<Title>Achievements</Title>}
+          centerComponent={<Title>Settings</Title>}
         />
-        {/* <Button onPress={() => this.props.navigation.navigate("Settings")}>
-          <Text>Go to Settings</Text>
-        </Button> */}
       </View>
     );
   }
 }
 
-export default MapScreen;
+export default UserSettingsScreen;
