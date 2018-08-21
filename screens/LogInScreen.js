@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Font, AppLoading } from "expo";
-import { Text, View, Heading, TextInput, Button } from "@shoutem/ui";
+import { Text, View, Heading, TextInput, Button, Icon } from "@shoutem/ui";
+import { Constants } from "expo";
 
 class LogInScreen extends Component {
   state = {
@@ -9,36 +10,59 @@ class LogInScreen extends Component {
     password: ""
   };
 
-  handleLogIn = () => {
-    this.props.navigation.navigate("Collections");
-  };
-
   render() {
     if (!this.state.fontsAreLoaded) {
       return <AppLoading />;
     }
     return (
-      <View styleName="clear">
-        <Heading>StampBook</Heading>
-        <Text>Username: </Text>{" "}
-        <TextInput
-          value={this.state.username}
-          onChangeText={username =>
-            this.setState({ username }, console.log(this.state.username))
-          }
-          placeholder={"Please enter your username"}
-        />
-        <Text>Password: </Text>{" "}
-        <TextInput
-          value={this.state.password}
-          onChangeText={password =>
-            this.setState({ password }, console.log(this.state.password))
-          }
-          placeholder={"Please enter your password"}
-          secureTextEntry
-        />
-        <View>
-          <Button onPress={this.handleLogIn}>
+      <View style={{ flex: 1, paddingTop: Constants.statusBarHeight }}>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 170
+          }}
+        >
+          <Heading>StampBook</Heading>
+          <Icon style={{ paddingTop: 17, paddingBottom: 25 }} name="books" />
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={{
+                paddingTop: 18,
+                paddingBottom: 18,
+                paddingLeft: 15,
+                paddingRight: 15
+              }}
+            >
+              Username:{" "}
+            </Text>{" "}
+            <TextInput
+              value={this.state.username}
+              onChangeText={username => this.setState({ username })}
+              placeholder={"Please enter your username"}
+            />
+          </View>
+
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={{
+                paddingTop: 18,
+                paddingBottom: 18,
+                paddingLeft: 15,
+                paddingRight: 15
+              }}
+            >
+              Password:{" "}
+            </Text>{" "}
+            <TextInput
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+              placeholder={"Please enter your password"}
+              secureTextEntry
+            />
+          </View>
+
+          <Button onPress={() => this.props.handleLogin()}>
             <Text>SUBMIT</Text>
           </Button>
         </View>

@@ -1,17 +1,33 @@
 import React, { Component } from "react";
-import { View, NavigationBar, Icon, Title } from "@shoutem/ui";
+import { View, NavigationBar, Icon, Title, Text } from "@shoutem/ui";
+import { ScrollView } from "react-native";
 
 class MapScreen extends Component {
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <View>
+            <Text>Map and achievements go here</Text>
+          </View>
+        </ScrollView>
+
+        {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
-          leftComponent={<Icon name="sidebar" />}
-          centerComponent={<Title>Achievements</Title>}
+          leftComponent={
+            <Icon
+              onPress={() => this.props.navigation.openDrawer()}
+              name="sidebar"
+            />
+          }
+          centerComponent={<Title>Map</Title>}
         />
-        {/* <Button onPress={() => this.props.navigation.navigate("Settings")}>
-          <Text>Go to Settings</Text>
-        </Button> */}
       </View>
     );
   }
