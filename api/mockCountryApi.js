@@ -6,19 +6,18 @@ import delay from './delay';
 
 const countries = [
   {
-    _id: 'D9aZZ9smn1392m1124d923hzg',
+    _id: '5b7be7f39775a142c172d214',
+    geolocation: [0.1278, 51.5074],
     country: 'United Kingdom',
-    picture_url: 'www.pictureurl.com/uk'
+    picture_url: 'www.pictureurl.com',
+    __v: 0
   },
   {
-    _id: 'D9aZZ9smn1392m1124d923hzA',
+    _id: '5b7be7f39775a142c172d215',
+    geolocation: [2.2069771, 48.8587741],
     country: 'France',
-    picture_url: 'www.pictureurl.com/fr'
-  },
-  {
-    _id: 'D9aZZ9smn1392m1124d923hzP',
-    country: 'Germany',
-    picture_url: 'wwww.pictureurl.com/de'
+    picture_url: 'www.pictureurl.com',
+    __v: 0
   }
 ];
 
