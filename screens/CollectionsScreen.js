@@ -1,9 +1,32 @@
 import React from "react";
-import { View, Text, NavigationBar, Icon, Title, Button } from "@shoutem/ui";
+import {
+  View,
+  Text,
+  NavigationBar,
+  Icon,
+  ImageBackground,
+  Title,
+  Button,
+  Tile
+} from "@shoutem/ui";
 import { ScrollView } from "react-native";
+import CountryApi from "../api/mockCountryApi";
 
 class CollectionsScreen extends React.Component {
+  state = {
+    data: {}
+  };
+
+  // This is an example of calling the mockApi, this will need to be changed to something like Axios or whatever we choose for the remote API.
+  componentDidMount = async () => {
+    let data = await CountryApi.getAllCountries();
+    this.setState({
+      data
+    });
+  };
+
   render() {
+    const { data } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
@@ -14,7 +37,21 @@ class CollectionsScreen extends React.Component {
           }}
         >
           <View>
-            <Text>all your collections here</Text>
+            {data[0] &&
+              data.map(country => (
+                <View key={country._id}>
+                  <ImageBackground
+                    styleName="featured"
+                    source={{ uri: country.avatar_url }}
+                  >
+                    <Tile>
+                      <Title styleName="md-gutter-bottom">
+                        {country.country}
+                      </Title>
+                    </Tile>
+                  </ImageBackground>
+                </View>
+              ))}
           </View>
         </ScrollView>
 
