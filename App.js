@@ -3,7 +3,7 @@ import LogInScreen from "./screens/LogInScreen";
 import { Constants } from "expo";
 import { createDrawerNavigator, DrawerItems } from "react-navigation";
 import { View, Text } from "@shoutem/ui";
-import { SafeAreaView, ScrollView, Dimensions } from "react-native";
+import { ScrollView } from "react-native";
 import MapScreen from "./screens/MapScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen";
 import CollectionsScreen from "./screens/CollectionsScreen";
