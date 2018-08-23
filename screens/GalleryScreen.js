@@ -5,9 +5,7 @@ import * as firebase from "firebase";
 
 class GalleryScreen extends React.Component {
   state = {
-    image: null,
-    username: "michaelJackson",
-    firebase_URL: ""
+    image: null
   };
 
   pickImage = async () => {
@@ -39,17 +37,12 @@ class GalleryScreen extends React.Component {
     if (status === "granted") {
       const response = await fetch(uri);
       let result = await Expo.Location.getCurrentPositionAsync();
+      console.log(result.coords);
       const blob = await response.blob();
       let ref = firebase
         .storage()
         .ref()
-        .child(`${this.state.username}` + `~${result.coords.longitude},${result.coords.latitude}~${this.state.username}`)
-        .getDownloadURL()
-        .then(url => {
-          console.log(url)
-          this.setState({ firebase_URL: url });
-
-        })
+        .child("images/" + `~${result.coords.longitude},${result.coords.latitude}~simonCowel`);
 
       return ref.put(blob);
     }
