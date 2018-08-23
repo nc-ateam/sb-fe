@@ -1,7 +1,7 @@
-import React from "react";
-import { ImagePicker, Permissions } from "expo";
-import { Button, Image, View } from "react-native";
-
+import React from 'react';
+import { ImagePicker, Permissions } from 'expo';
+import { Image, View } from 'react-native';
+import { NavigationBar, Icon, Title, Button, Text } from '@shoutem/ui';
 
 class GalleryScreen extends React.Component {
   state = {
@@ -10,35 +10,50 @@ class GalleryScreen extends React.Component {
 
   pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if(status === 'granted'){
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      mediaTypes: "Images"
-    });
-  
+    if (status === 'granted') {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        mediaTypes: 'Images'
+      });
 
-    console.log(result, "<<<<<<<<<<<<");
-  
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      if (!result.cancelled) {
+        this.setState({ image: result.uri });
+      }
     }
-  }
   };
 
   render() {
     let { image } = this.state;
 
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this.pickImage}
-        />
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#FFFFFF'
+        }}
+      >
         {image && (
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
+        <Button onPress={this.pickImage}>
+          <Text>Pick Image</Text>
+        </Button>
+        {this.state.image ? (
+          <Button onPress={this.pickImage}>
+            <Text>Upload Image</Text>
+          </Button>
+        ) : null}
+        <NavigationBar
+          leftComponent={
+            <Button onPress={() => this.props.screenProps.openDrawer()}>
+              <Icon name="sidebar" />
+            </Button>
+          }
+          centerComponent={<Title>Gallery</Title>}
+        />
       </View>
     );
   }
