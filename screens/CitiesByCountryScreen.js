@@ -40,12 +40,14 @@ class CitiesByCountryScreen extends Component {
               paddingTop: 250
             }}
           >
+            {/* to return to previous Contries screen */}
             <Button
               style={{ marginTop: 20, marginBottom: 20 }}
               onPress={() => navigation.navigate("Countries")}
             >
               <Text>Go back to countries</Text>
             </Button>
+
             {cities.map(city => {
               return (
                 <View key={city._id}>
@@ -57,7 +59,9 @@ class CitiesByCountryScreen extends Component {
                       <Button
                         onPress={() =>
                           this.props.navigation.navigate("Map", {
-                            cityId: city._id
+                            cityId: city._id,
+                            latitude: city.geolocation.coordinates[1],
+                            longitude: city.geolocation.coordinates[0]
                           })
                         }
                       >
