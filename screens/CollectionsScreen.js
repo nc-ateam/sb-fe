@@ -17,7 +17,6 @@ import MapScreen from "./MapScreen";
 
 class CollectionsScreen extends React.Component {
   render() {
-    // console.log(this.props.navigation, "KJBKHGJHGJYFJYFJF");
     return <StackNavigator screenProps={this.props.navigation} />;
   }
 }
