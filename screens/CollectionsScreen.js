@@ -27,7 +27,7 @@ const StackNavigator = createStackNavigator(
   },
   {
     initialRouteName: "Countries",
-    header: { visible: false }
+    headerMode: false
   }
 );
 export default CollectionsScreen;
