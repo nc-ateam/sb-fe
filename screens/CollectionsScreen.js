@@ -13,21 +13,24 @@ import {
 import { createStackNavigator } from "react-navigation";
 import CitiesByCountryScreen from "./CitiesByCountryScreen";
 import CountriesScreen from "./CountriesScreen";
+import MapScreen from "./MapScreen";
 
 class CollectionsScreen extends React.Component {
   render() {
-    return <StackNavigator />;
+    // console.log(this.props.navigation, "KJBKHGJHGJYFJYFJF");
+    return <StackNavigator screenProps={this.props.navigation} />;
   }
 }
 
 const StackNavigator = createStackNavigator(
   {
     Countries: CountriesScreen,
-    Cities: CitiesByCountryScreen
+    Cities: CitiesByCountryScreen,
+    Map: MapScreen
   },
   {
     initialRouteName: "Countries",
-    headerMode: false
+    headerMode: "none"
   }
 );
 export default CollectionsScreen;
