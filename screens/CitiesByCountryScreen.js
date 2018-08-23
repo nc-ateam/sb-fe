@@ -1,8 +1,15 @@
 import React, { Component } from "react";
-import * as api from '../api/api';
-import { ScrollView } from 'react-native';
-import { View, NavigationBar, Button, Title, Icon, Tile, ImageBackground } from '@shoutem/ui';
-
+import * as api from "../api/api";
+import { ScrollView } from "react-native";
+import {
+  View,
+  NavigationBar,
+  Button,
+  Title,
+  Icon,
+  Tile,
+  ImageBackground
+} from "@shoutem/ui";
 
 class CitiesByCountryScreen extends Component {
   state = {
@@ -12,13 +19,15 @@ class CitiesByCountryScreen extends Component {
 
   componentDidMount() {
     const { countryId } = this.props.navigation.state.params;
-    if (countryId) {
-      api.fetchCitiesByCountry(countryId).then(cities => this.setState({ cities, isLoading: false }));
-    }
+
+    api
+      .fetchCitiesByCountry(countryId)
+      .then(cities => this.setState({ cities, isLoading: false }));
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, cities } = this.state;
+    console.log(cities[0]);
     return (
       <View style={{ flex: 1 }}>
         {!isLoading && (
@@ -28,18 +37,34 @@ class CitiesByCountryScreen extends Component {
               alignItems: "center",
               justifyContent: "center"
             }}
-          />
+          >
+            {cities.map(city => {
+              console.log(city.city);
+              return (
+                <View key={city._id}>
+                  <ImageBackground
+                    styleName="featured"
+                    source={{ uri: city.picture_url }}
+                  >
+                    <Tile>
+                      <Title styleName="md-gutter-bottom">{city.city}</Title>
+                    </Tile>
+                  </ImageBackground>
+                </View>
+              );
+            })}
+          </ScrollView>
         )}
 
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
-        {/* <NavigationBar
+        <NavigationBar
           leftComponent={
             <Button onPress={() => this.props.navigation.openDrawer()}>
               <Icon name="sidebar" />
             </Button>
           }
           centerComponent={<Title>Collections</Title>}
-        /> */}
+        />
       </View>
     );
   }
