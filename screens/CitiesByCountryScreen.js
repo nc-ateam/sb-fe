@@ -27,7 +27,6 @@ class CitiesByCountryScreen extends Component {
 
   render() {
     const { isLoading, cities } = this.state;
-    console.log(cities[0]);
     return (
       <View style={{ flex: 1 }}>
         {!isLoading && (
@@ -39,7 +38,6 @@ class CitiesByCountryScreen extends Component {
             }}
           >
             {cities.map(city => {
-              console.log(city.city);
               return (
                 <View key={city._id}>
                   <ImageBackground
