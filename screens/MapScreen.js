@@ -26,7 +26,6 @@ class MapScreen extends Component {
 
   render() {
     const { landmarks, currentRegion, isLoading } = this.state;
-    console.log(landmarks);
     return (
       <View style={{ flex: 1 }}>
         <View
