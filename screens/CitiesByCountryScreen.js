@@ -3,6 +3,7 @@ import * as api from "../api/api";
 import { ScrollView } from "react-native";
 import {
   View,
+  Text,
   NavigationBar,
   Button,
   Title,
@@ -27,7 +28,7 @@ class CitiesByCountryScreen extends Component {
 
   render() {
     const { isLoading, cities } = this.state;
-    const { screenProps } = this.props;
+    const { screenProps, navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
         {!isLoading && (
@@ -35,9 +36,16 @@ class CitiesByCountryScreen extends Component {
             contentContainerStyle={{
               flex: 1,
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "center",
+              paddingTop: 250
             }}
           >
+            <Button
+              style={{ marginTop: 20, marginBottom: 20 }}
+              onPress={() => navigation.navigate("Countries")}
+            >
+              <Text>Go back to countries</Text>
+            </Button>
             {cities.map(city => {
               return (
                 <View key={city._id}>
@@ -46,7 +54,15 @@ class CitiesByCountryScreen extends Component {
                     source={{ uri: city.picture_url }}
                   >
                     <Tile>
-                      <Title styleName="md-gutter-bottom">{city.city}</Title>
+                      <Button
+                        onPress={() =>
+                          this.props.navigation.navigate("Map", {
+                            cityId: city._id
+                          })
+                        }
+                      >
+                        <Text styleName="md-gutter-bottom">{city.city}</Text>
+                      </Button>
                     </Tile>
                   </ImageBackground>
                 </View>

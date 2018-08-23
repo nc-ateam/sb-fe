@@ -26,7 +26,7 @@ class CountriesScreen extends Component {
 
   render() {
     // console.log(this.props.navigation, "sfkeyeiuiwpeirpwieriwu");
-    const { screenProps } = this.props;
+    const { screenProps, navigation } = this.props;
     const { countries, isLoading } = this.state;
     return (
       <View style={{ flex: 1 }}>
@@ -45,16 +45,17 @@ class CountriesScreen extends Component {
                   source={{ uri: country.picture_url }}
                 >
                   <Tile>
-                    <Title
+                    <Button
                       onPress={() =>
-                        this.props.navigation.navigate("Cities", {
+                        navigation.navigate("Cities", {
                           countryId: country._id
                         })
                       }
-                      styleName="md-gutter-bottom"
                     >
-                      {country.country}
-                    </Title>
+                      <Text styleName="md-gutter-bottom">
+                        {country.country}
+                      </Text>
+                    </Button>
                   </Tile>
                 </ImageBackground>
               </View>

@@ -26,7 +26,7 @@ class MapScreen extends Component {
 
   render() {
     const { landmarks, currentRegion, isLoading } = this.state;
-    console.log(landmarks);
+    const { screenProps } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <View
@@ -67,7 +67,7 @@ class MapScreen extends Component {
         <NavigationBar
           styleName="clear"
           leftComponent={
-            <Button onPress={() => this.props.navigation.openDrawer()}>
+            <Button onPress={() => screenProps.openDrawer()}>
               <Icon style={{ color: "black" }} name="sidebar" />
             </Button>
           }
@@ -78,11 +78,11 @@ class MapScreen extends Component {
   }
 
   componentDidMount() {
-    const cityID = "5b7d4ec4aa1bd63ca6aa1eec";
+    const { cityId } = this.props.navigation.state.params;
 
     navigator.geolocation.getCurrentPosition(
       position => {
-        api.fetchLandmarksByCity(cityID).then(landmarks => {
+        api.fetchLandmarksByCity(cityId).then(landmarks => {
           this.setState({
             currentRegion: {
               latitude: position.coords.latitude,
