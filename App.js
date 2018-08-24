@@ -8,7 +8,6 @@ import MapScreen from "./screens/MapScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen";
 import CollectionsScreen from "./screens/CollectionsScreen";
 import PhotosScreen from "./screens/PhotosScreen";
-import Achievements from "./components/Achievements";
 
 class App extends React.Component {
   state = {
@@ -32,8 +31,7 @@ const DrawerNavigator = createDrawerNavigator(
     Collections: CollectionsScreen,
     Map: MapScreen,
     Settings: UserSettingsScreen,
-    Photo: PhotosScreen,
-    Achievements: Achievements
+    Photo: PhotosScreen
   },
   {
     contentComponent: props => (

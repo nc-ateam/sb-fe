@@ -6,7 +6,8 @@ import {
   Icon,
   Image,
   Heading,
-  Button
+  Button,
+  ListView
 } from "@shoutem/ui";
 import * as api from "../api/api";
 
@@ -19,20 +20,52 @@ class Achievements extends Component {
   render() {
     const { isLoading, photo } = this.state;
     const landmarkName = "Northcoders";
-    console.log(photo);
     return !isLoading ? (
       !photo ? (
         <View style={{ flex: 1 }}>
-          <View style={{ paddingTop: 50 }}>
+          <View style={{ flex: 1, paddingTop: 50 }}>
             {/* remove button when component is integrated into MapScreen */}
-            <Button onPress={() => this.props.navigation.goBack()}>
-              <Text>Back to map</Text>
-            </Button>
-            <Heading>{landmarkName}</Heading>
-            <Text>Not collected</Text>
-            <Button>
-              <Icon name="take-a-photo" />
-            </Button>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Button
+                style={{
+                  marginTop: 40,
+                  marginBottom: 30,
+                  width: 150,
+                  height: 50
+                }}
+                onPress={() => this.props.navigation.goBack()}
+              >
+                <Text>Back to map</Text>
+              </Button>
+            </View>
+
+            <View>
+              <Heading style={{ textAlign: "center" }}>{landmarkName}</Heading>
+              <Text style={{ textAlign: "center" }}>Not collected</Text>
+            </View>
+
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Button
+                style={{
+                  marginTop: 40,
+                  marginBottom: 10,
+                  width: 60,
+                  height: 60
+                }}
+              >
+                <Icon name="take-a-photo" />
+              </Button>
+            </View>
           </View>
         </View>
       ) : (
@@ -50,7 +83,7 @@ class Achievements extends Component {
   }
 
   componentDidMount() {
-    const userId = "5b7d4ec4aa1bd63ca6aa1ef9";
+    const userId = "5b7ff102d149a1272a3ca322";
     const { landmarkId } = this.props.navigation.state.params;
     api.fetchAllPhotosByUser(userId).then(photos => {
       const singlePhoto = photos.filter(
