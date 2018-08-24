@@ -25,7 +25,6 @@ class CountriesScreen extends Component {
   }
 
   render() {
-    // console.log(this.props.navigation, "sfkeyeiuiwpeirpwieriwu");
     const { screenProps, navigation } = this.props;
     const { countries, isLoading } = this.state;
     return (
