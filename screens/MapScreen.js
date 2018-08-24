@@ -62,6 +62,11 @@ class MapScreen extends Component {
               return (
                 <MapView.Marker
                   key={landmark._id}
+                  onPress={() =>
+                    this.props.navigation.navigate("Achievements", {
+                      landmarkId: landmark._id
+                    })
+                  }
                   title={`${landmark.landmark}`}
                   pinColor="darkslateblue"
                   coordinate={coordinates}

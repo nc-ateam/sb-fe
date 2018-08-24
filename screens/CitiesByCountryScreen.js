@@ -43,7 +43,7 @@ class CitiesByCountryScreen extends Component {
             {/* to return to previous Contries screen */}
             <Button
               style={{ marginTop: 20, marginBottom: 20 }}
-              onPress={() => navigation.navigate("Countries")}
+              onPress={() => navigation.goBack()}
             >
               <Text>Go back to countries</Text>
             </Button>
@@ -58,7 +58,7 @@ class CitiesByCountryScreen extends Component {
                     <Tile>
                       <Button
                         onPress={() =>
-                          this.props.navigation.navigate("Map", {
+                          navigation.navigate("Map", {
                             cityId: city._id,
                             latitude: city.geolocation.coordinates[1],
                             longitude: city.geolocation.coordinates[0]

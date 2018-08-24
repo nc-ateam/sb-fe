@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation";
 import CitiesByCountryScreen from "./CitiesByCountryScreen";
 import CountriesScreen from "./CountriesScreen";
 import MapScreen from "./MapScreen";
+import Achievements from "../components/Achievements";
 
 class CollectionsScreen extends React.Component {
   render() {
@@ -14,7 +15,8 @@ const StackNavigator = createStackNavigator(
   {
     Countries: CountriesScreen,
     Cities: CitiesByCountryScreen,
-    Map: MapScreen
+    Map: MapScreen,
+    Achievements: Achievements
   },
   {
     initialRouteName: "Countries",
