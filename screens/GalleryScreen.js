@@ -1,14 +1,15 @@
 import React from "react";
 import { ImagePicker, Permissions } from "expo";
-import { Button, Image, View, Alert, Text } from "react-native";
+import { Image, View, Alert } from "react-native";
 import * as firebase from "firebase";
-import { NavigationBar, Icon, Title, Button, Text } from '@shoutem/ui';
+import { NavigationBar, Icon, Title, Button, Text } from "@shoutem/ui";
 
 class GalleryScreen extends React.Component {
   state = {
     image: null,
     username: "brommers",
-    photo_URL: ""
+    photo_URL: "",
+    image: ''
   };
 
   pickImage = async () => {
@@ -20,8 +21,7 @@ class GalleryScreen extends React.Component {
         mediaTypes: "Images"
       });
 
-      // this.setState({ image: result.uri }).then(() => {
-      this.uploadImage(result.uri, "test-image")
+      this.setState({ image: result.uri })
         .then(() => {
           Alert.alert("SUCCESS");
         })
@@ -29,13 +29,14 @@ class GalleryScreen extends React.Component {
           console.log(error);
           Alert.alert(error);
         });
-    }
+      }
   };
 
-  uploadImage = async (uri, imageName) => {
+  uploadImage = async () => {
+    console.log(this.state.image)
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
-      const response = await fetch(uri);
+      const response = await fetch(this.state.image);
       let result = await Expo.Location.getCurrentPositionAsync();
       const blob = await response.blob();
       let filename = `~${result.coords.longitude},${result.coords.latitude}~${
@@ -91,9 +92,9 @@ class GalleryScreen extends React.Component {
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#FFFFFF'
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#FFFFFF"
         }}
       >
         {image && (
@@ -103,7 +104,7 @@ class GalleryScreen extends React.Component {
           <Text>Pick Image</Text>
         </Button>
         {this.state.image ? (
-          <Button onPress={this.pickImage}>
+          <Button onPress={this.uploadImage}>
             <Text>Upload Image</Text>
           </Button>
         ) : null}
