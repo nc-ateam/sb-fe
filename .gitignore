@@ -5,7 +5,7 @@
 
 # dependencies
 /node_modules
-/config
+config.js
 
 # misc
 .env.local

@@ -2,10 +2,13 @@ import React from "react";
 import { ImagePicker, Permissions } from "expo";
 import { Button, Image, View, Alert, Text } from "react-native";
 import * as firebase from "firebase";
+import axios from "axios";
 
 class GalleryScreen extends React.Component {
   state = {
-    image: null
+    image: null,
+    username: "brommers",
+    photo_URL: ""
   };
 
   pickImage = async () => {
@@ -16,8 +19,6 @@ class GalleryScreen extends React.Component {
         aspect: [4, 3],
         mediaTypes: "Images"
       });
-
-      console.log(result, "<<<<<<<<<<<<");
 
       // this.setState({ image: result.uri }).then(() => {
       this.uploadImage(result.uri, "test-image")
@@ -32,21 +33,56 @@ class GalleryScreen extends React.Component {
   };
 
   uploadImage = async (uri, imageName) => {
-    console.log(`uploading image time`);
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
       const response = await fetch(uri);
       let result = await Expo.Location.getCurrentPositionAsync();
-      console.log(result.coords);
       const blob = await response.blob();
-      let ref = firebase
+      let filename = `~${result.coords.longitude},${result.coords.latitude}~${
+        this.state.username
+      }jpeg`;
+      firebase
         .storage()
         .ref()
-        .child("images/" + `~${result.coords.longitude},${result.coords.latitude}~simonCowel`);
-
-      return ref.put(blob);
+        .child(`${this.state.username}/` + filename)
+        .put(blob)
+        .then(response => {
+          firebase
+            .storage()
+            .ref(this.state.username)
+            .child(filename)
+            .getDownloadURL()
+            .then(url => {
+              this.setState({ photo_URL: url });
+            });
+        });
     }
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.photo_URL !== this.state.photo_URL) {
+      fetch(
+        "https://stamp-book-api.herokuapp.com/api/landmarks/5b7ff102d149a1272a3ca318/checkLandmark",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ body: this.state.photo_URL })
+        }
+      )
+        .then(response => {
+          return response.json();
+        })
+        .then(responseJson => {
+          return responseJson.storedPhoto;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
 
   render() {
     let { image } = this.state;
