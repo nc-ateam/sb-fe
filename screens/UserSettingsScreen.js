@@ -4,6 +4,7 @@ import { ScrollView } from "react-native";
 
 class UserSettingsScreen extends Component {
   render() {
+    const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView
@@ -21,10 +22,7 @@ class UserSettingsScreen extends Component {
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
           leftComponent={
-            <Icon
-              onPress={() => this.props.navigation.openDrawer()}
-              name="sidebar"
-            />
+            <Icon onPress={() => navigation.openDrawer()} name="sidebar" />
           }
           centerComponent={<Title>Settings</Title>}
         />
