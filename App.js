@@ -8,6 +8,14 @@ import MapScreen from "./screens/MapScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen";
 import CollectionsScreen from "./screens/CollectionsScreen";
 import PhotosScreen from "./screens/PhotosScreen";
+import * as firebase from "firebase"
+import ApiKeys from "./config"
+
+// if (!firebase.apps.length) { 
+  firebase.initializeApp(ApiKeys.FirebaseConfig)
+// }
+
+
 
 class App extends React.Component {
   state = {

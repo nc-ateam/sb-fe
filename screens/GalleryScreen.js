@@ -1,27 +1,88 @@
-import React from 'react';
-import { ImagePicker, Permissions } from 'expo';
-import { Image, View } from 'react-native';
+import React from "react";
+import { ImagePicker, Permissions } from "expo";
+import { Button, Image, View, Alert, Text } from "react-native";
+import * as firebase from "firebase";
 import { NavigationBar, Icon, Title, Button, Text } from '@shoutem/ui';
 
 class GalleryScreen extends React.Component {
   state = {
-    image: null
+    image: null,
+    username: "brommers",
+    photo_URL: ""
   };
 
   pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status === 'granted') {
+    if (status === "granted") {
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        mediaTypes: 'Images'
+        mediaTypes: "Images"
       });
 
-      if (!result.cancelled) {
-        this.setState({ image: result.uri });
-      }
+      // this.setState({ image: result.uri }).then(() => {
+      this.uploadImage(result.uri, "test-image")
+        .then(() => {
+          Alert.alert("SUCCESS");
+        })
+        .catch(error => {
+          console.log(error);
+          Alert.alert(error);
+        });
     }
   };
+
+  uploadImage = async (uri, imageName) => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === "granted") {
+      const response = await fetch(uri);
+      let result = await Expo.Location.getCurrentPositionAsync();
+      const blob = await response.blob();
+      let filename = `~${result.coords.longitude},${result.coords.latitude}~${
+        this.state.username
+      }jpeg`;
+      firebase
+        .storage()
+        .ref()
+        .child(`${this.state.username}/` + filename)
+        .put(blob)
+        .then(response => {
+          firebase
+            .storage()
+            .ref(this.state.username)
+            .child(filename)
+            .getDownloadURL()
+            .then(url => {
+              this.setState({ photo_URL: url });
+            });
+        });
+    }
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.photo_URL !== this.state.photo_URL) {
+      fetch(
+        "https://stamp-book-api.herokuapp.com/api/landmarks/5b7ff102d149a1272a3ca318/checkLandmark",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ body: this.state.photo_URL })
+        }
+      )
+        .then(response => {
+          return response.json();
+        })
+        .then(responseJson => {
+          return responseJson.storedPhoto;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
 
   render() {
     let { image } = this.state;
