@@ -14,7 +14,8 @@ const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 
 class MapScreen extends Component {
   state = {
-    currentRegion: {
+    region: {},
+    currentLocation: {
       latitude: LATITUDE,
       longitude: LONGITUDE,
       latitudeDelta: LATITUDE_DELTA,
@@ -25,7 +26,8 @@ class MapScreen extends Component {
   };
 
   render() {
-    const { landmarks, currentRegion, isLoading } = this.state;
+    const { landmarks, region, isLoading, currentLocation } = this.state;
+    const { screenProps } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <View
@@ -35,15 +37,21 @@ class MapScreen extends Component {
         </View>
         {!isLoading && (
           <MapView
-            onMarkerPress={() => console.log("HIIIIIII")}
             style={{ flex: 1, height: height }}
-            region={currentRegion}
+            region={
+              currentLocation && region.longitudeDelta
+                ? region
+                : currentLocation
+            }
             showUserLocation={true}
             provider="google"
           >
-            <MapView.Marker coordinate={currentRegion} />
-            {/* other markers go here */}
-
+            {/* this marker shows current location */}
+            <MapView.Marker
+              coordinate={currentLocation}
+              title="Your current location"
+            />{" "}
+            {/* landmark markers below */}
             {landmarks.map(landmark => {
               const coordinates = {
                 latitude: landmark.geolocation.coordinates[1],
@@ -54,6 +62,7 @@ class MapScreen extends Component {
               return (
                 <MapView.Marker
                   key={landmark._id}
+                  title={`${landmark.landmark}`}
                   pinColor="darkslateblue"
                   coordinate={coordinates}
                 />
@@ -66,7 +75,13 @@ class MapScreen extends Component {
         <NavigationBar
           styleName="clear"
           leftComponent={
-            <Button onPress={() => this.props.navigation.openDrawer()}>
+            <Button
+              onPress={() =>
+                screenProps
+                  ? screenProps.openDrawer()
+                  : this.props.navigation.openDrawer()
+              }
+            >
               <Icon style={{ color: "black" }} name="sidebar" />
             </Button>
           }
@@ -77,21 +92,34 @@ class MapScreen extends Component {
   }
 
   componentDidMount() {
-    const cityID = "5b7d4ec4aa1bd63ca6aa1eec";
-
+    if (this.props.navigation.state.params) {
+      const {
+        cityId,
+        latitude,
+        longitude
+      } = this.props.navigation.state.params;
+      api.fetchLandmarksByCity(cityId).then(landmarks => {
+        this.setState({
+          region: {
+            latitude,
+            longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA
+          },
+          landmarks
+        });
+      });
+    }
     navigator.geolocation.getCurrentPosition(
       position => {
-        api.fetchLandmarksByCity(cityID).then(landmarks => {
-          this.setState({
-            currentRegion: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              latitudeDelta: LATITUDE_DELTA,
-              longitudeDelta: LONGITUDE_DELTA
-            },
-            landmarks,
-            isLoading: false
-          });
+        this.setState({
+          currentLocation: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA
+          },
+          isLoading: false
         });
       },
       error => console.log(error.message),
@@ -99,12 +127,13 @@ class MapScreen extends Component {
     );
     this.watchID = navigator.geolocation.watchPosition(position => {
       this.setState({
-        currentRegion: {
+        currentLocation: {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA
-        }
+        },
+        isLoading: false
       });
     });
   }

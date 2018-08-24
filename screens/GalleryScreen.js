@@ -2,7 +2,7 @@ import React from "react";
 import { ImagePicker, Permissions } from "expo";
 import { Button, Image, View, Alert, Text } from "react-native";
 import * as firebase from "firebase";
-import axios from "axios";
+import { NavigationBar, Icon, Title, Button, Text } from '@shoutem/ui';
 
 class GalleryScreen extends React.Component {
   state = {
@@ -88,14 +88,33 @@ class GalleryScreen extends React.Component {
     let { image } = this.state;
 
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this.pickImage}
-        />
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#FFFFFF'
+        }}
+      >
         {image && (
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
+        <Button onPress={this.pickImage}>
+          <Text>Pick Image</Text>
+        </Button>
+        {this.state.image ? (
+          <Button onPress={this.pickImage}>
+            <Text>Upload Image</Text>
+          </Button>
+        ) : null}
+        <NavigationBar
+          leftComponent={
+            <Button onPress={() => this.props.screenProps.openDrawer()}>
+              <Icon name="sidebar" />
+            </Button>
+          }
+          centerComponent={<Title>Gallery</Title>}
+        />
       </View>
     );
   }

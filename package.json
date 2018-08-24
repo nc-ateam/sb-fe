@@ -33,9 +33,8 @@
   },
   "dependencies": {
     "@shoutem/ui": "^0.23.4",
-    "axios": "^0.18.0",
-    "expo": "^27.0.1",
     "firebase": "^5.4.0",
+    "expo": "^27.1.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-camera": "^1.2.0",

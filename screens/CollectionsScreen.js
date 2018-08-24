@@ -1,15 +1,4 @@
 import React from "react";
-import {
-  View,
-  Text,
-  NavigationBar,
-  Icon,
-  ImageBackground,
-  Title,
-  Button,
-  Tile
-} from "@shoutem/ui";
-
 import { createStackNavigator } from "react-navigation";
 import CitiesByCountryScreen from "./CitiesByCountryScreen";
 import CountriesScreen from "./CountriesScreen";

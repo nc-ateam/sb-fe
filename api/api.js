@@ -19,3 +19,7 @@ export const fetchCitiesByCountry = countryId => {
     .then(response => response.json())
     .then(responseJson => responseJson.cities);
 };
+
+export const fetchAllPhotosByUser = userId => {
+  return fetch;
+};
