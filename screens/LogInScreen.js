@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Font, AppLoading } from "expo";
-import { Text, View, Heading, TextInput, Button, Icon } from "@shoutem/ui";
+import { Text, View, Heading, Button, Icon } from "@shoutem/ui";
+import { TextInput } from "react-native";
 import { Constants } from "expo";
 
 class LogInScreen extends Component {
@@ -25,44 +26,34 @@ class LogInScreen extends Component {
         >
           <Heading>StampBook</Heading>
           <Icon style={{ paddingTop: 17, paddingBottom: 25 }} name="books" />
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                paddingTop: 18,
-                paddingBottom: 18,
-                paddingLeft: 15,
-                paddingRight: 15
-              }}
-            >
-              Username:{" "}
-            </Text>{" "}
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
             <TextInput
+              style={{ width: 200, height: 30, marginVertical: 10 }}
               value={this.state.username}
               onChangeText={username => this.setState({ username })}
+              onKeyPress={this.props.handleKeydown}
               placeholder={"Please enter your username"}
             />
           </View>
 
           <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                paddingTop: 18,
-                paddingBottom: 18,
-                paddingLeft: 15,
-                paddingRight: 15
-              }}
-            >
-              Password:{" "}
-            </Text>{" "}
             <TextInput
+              style={{ width: 200, height: 30, marginVertical: 10 }}
               value={this.state.password}
               onChangeText={password => this.setState({ password })}
+              onKeyPress={this.props.handleKeydown}
               placeholder={"Please enter your password"}
               secureTextEntry
             />
           </View>
 
-          <Button onPress={() => this.props.handleLogin()}>
+          <Button
+            onPress={() =>
+              this.props.handleLogin(this.state.username, this.state.password)
+            }
+          >
             <Text>SUBMIT</Text>
           </Button>
         </View>
