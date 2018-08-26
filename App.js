@@ -15,7 +15,7 @@ class App extends React.Component {
     testUser: {
       _id: "5b7ff102d149a1272a3ca322",
       visitedLandmarks: [],
-      username: "demoUserABC",
+      username: "Test",
       picture_url:
         "https://vignette.wikia.nocookie.net/disney/images/5/57/Jane_Porter_%28Vector%29.png/revision/latest?cb=20160803151057",
       fullname: "Jane Doe",

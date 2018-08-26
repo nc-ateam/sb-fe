@@ -9,7 +9,8 @@ import {
   Title,
   Icon,
   Tile,
-  ImageBackground
+  ImageBackground,
+  Heading
 } from "@shoutem/ui";
 
 class CitiesByCountryScreen extends Component {
@@ -42,17 +43,14 @@ class CitiesByCountryScreen extends Component {
               }}
             >
               <Button
-                style={{
-                  marginTop: 40,
-                  marginBottom: 10,
-                  width: 150
-                }}
+                style={{ marginTop: 40, marginBottom: 10, width: 150 }}
                 onPress={() => navigation.goBack()}
               >
                 <Text>{"< Countries"}</Text>
               </Button>
             </View>
 
+            <Heading style={{ textAlign: "center" }}>Choose a city</Heading>
             {cities.map(city => {
               return (
                 <View
