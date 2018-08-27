@@ -15,6 +15,7 @@ import Achievements from "./components/Achievements";
 import CountriesScreen from "./screens/CountriesScreen";
 import CitiesByCountryScreen from "./screens/CitiesByCountryScreen";
 import * as firebase from "firebase";
+import * as api from "./api/api";
 import ApiKeys from "./config";
 
 // if (!firebase.apps.length) {
@@ -24,16 +25,8 @@ firebase.initializeApp(ApiKeys.FirebaseConfig);
 class App extends React.Component {
   state = {
     loggedIn: false,
-    testUser: {
-      _id: "5b8023affc578449fe4e3f17",
-      visitedLandmarks: [],
-      username: "Test",
-      picture_url:
-        "https://vignette.wikia.nocookie.net/disney/images/5/57/Jane_Porter_%28Vector%29.png/revision/latest?cb=20160803151057",
-      fullname: "Jane Doe",
-      email: "janeyD123@hotmail.com"
-    },
-    testPassword: "0"
+    testUser: {},
+    testPassword: ""
   };
   render() {
     const { loggedIn, testUser } = this.state;
@@ -45,6 +38,12 @@ class App extends React.Component {
         handleLogin={this.handleLogin}
       />
     );
+  }
+
+  componentDidMount() {
+    api
+      .fetchAllUsers()
+      .then(users => this.setState({ testUser: users[1], testPassword: "a" }));
   }
 
   handleLogin = (username, password) => {
