@@ -89,7 +89,7 @@ export default class CameraScreen extends React.Component {
     FileSystem.makeDirectoryAsync(
       FileSystem.documentDirectory + "photos"
     ).catch(e => {
-      log(e, "Directory exists");
+      console.log(e, "Directory exists");
     });
   }
 
@@ -169,7 +169,12 @@ export default class CameraScreen extends React.Component {
         console.log("error loading images");
       });
 
-    return <GalleryScreen onPress={this.toggleView.bind(this)} />;
+    return (
+      <GalleryScreen
+        navigation={this.props.navigation}
+        onPress={this.toggleView.bind(this)}
+      />
+    );
   }
 
   renderNoPermissions = () => (

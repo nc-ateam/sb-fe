@@ -1,8 +1,8 @@
 import React from "react";
 import { ImagePicker, Permissions } from "expo";
-import { Button, Image, View, Alert, Text } from "react-native";
+import { Image, View, Alert } from "react-native";
 import * as firebase from "firebase";
-import { NavigationBar, Icon, Title, Button, Text } from '@shoutem/ui';
+import { NavigationBar, Icon, Title, Button, Text } from "@shoutem/ui";
 
 class GalleryScreen extends React.Component {
   state = {
@@ -91,9 +91,9 @@ class GalleryScreen extends React.Component {
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#FFFFFF'
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#FFFFFF"
         }}
       >
         {image && (
@@ -109,7 +109,7 @@ class GalleryScreen extends React.Component {
         ) : null}
         <NavigationBar
           leftComponent={
-            <Button onPress={() => this.props.screenProps.openDrawer()}>
+            <Button onPress={() => this.props.navigation.openDrawer()}>
               <Icon name="sidebar" />
             </Button>
           }
