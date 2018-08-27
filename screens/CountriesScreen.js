@@ -26,7 +26,7 @@ class CountriesScreen extends Component {
   }
 
   render() {
-    const { screenProps, navigation } = this.props;
+    const { navigation } = this.props;
     const { countries, isLoading } = this.state;
     return (
       <View style={{ flex: 1 }}>
@@ -69,7 +69,7 @@ class CountriesScreen extends Component {
 
         <NavigationBar
           leftComponent={
-            <Button onPress={() => screenProps.openDrawer()}>
+            <Button onPress={() => navigation.openDrawer()}>
               <Icon name="sidebar" />
             </Button>
           }

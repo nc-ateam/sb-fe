@@ -29,7 +29,7 @@ class CitiesByCountryScreen extends Component {
 
   render() {
     const { isLoading, cities } = this.state;
-    const { screenProps, navigation } = this.props;
+    const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
         {!isLoading && (
@@ -88,7 +88,7 @@ class CitiesByCountryScreen extends Component {
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
           leftComponent={
-            <Button onPress={() => screenProps.openDrawer()}>
+            <Button onPress={() => navigation.openDrawer()}>
               <Icon name="sidebar" />
             </Button>
           }

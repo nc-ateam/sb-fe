@@ -1,27 +1,31 @@
 import React from "react";
 import LogInScreen from "./screens/LogInScreen";
 import { Constants } from "expo";
-import { createDrawerNavigator, DrawerItems } from "react-navigation";
+import {
+  createDrawerNavigator,
+  DrawerItems,
+  createStackNavigator
+} from "react-navigation";
 import { View, Text } from "@shoutem/ui";
 import { ScrollView, Alert, Keyboard } from "react-native";
 import MapScreen from "./screens/MapScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen";
-import CollectionsScreen from "./screens/CollectionsScreen";
 import PhotosScreen from "./screens/PhotosScreen";
-import * as firebase from "firebase"
-import ApiKeys from "./config"
+import Achievements from "./components/Achievements";
+import CountriesScreen from "./screens/CountriesScreen";
+import CitiesByCountryScreen from "./screens/CitiesByCountryScreen";
+import * as firebase from "firebase";
+import ApiKeys from "./config";
 
-// if (!firebase.apps.length) { 
-  firebase.initializeApp(ApiKeys.FirebaseConfig)
+// if (!firebase.apps.length) {
+firebase.initializeApp(ApiKeys.FirebaseConfig);
 // }
-
-
 
 class App extends React.Component {
   state = {
     loggedIn: false,
     testUser: {
-      _id: "5b7ff102d149a1272a3ca322",
+      _id: "5b8023affc578449fe4e3f17",
       visitedLandmarks: [],
       username: "Test",
       picture_url:
@@ -34,7 +38,7 @@ class App extends React.Component {
   render() {
     const { loggedIn, testUser } = this.state;
     return loggedIn ? (
-      <DrawerNavigator screenProps={testUser._id} />
+      <DrawerNavigator screenProps={{ userId: testUser._id }} />
     ) : (
       <LogInScreen
         handleKeyDown={this.handleKeyDown}
@@ -59,9 +63,22 @@ class App extends React.Component {
   };
 }
 
+const StackNavigator = createStackNavigator(
+  {
+    Countries: CountriesScreen,
+    Cities: CitiesByCountryScreen,
+    Map: MapScreen,
+    Achievements: Achievements
+  },
+  {
+    initialRouteName: "Countries",
+    headerMode: "none"
+  }
+);
+
 const DrawerNavigator = createDrawerNavigator(
   {
-    Collections: CollectionsScreen,
+    Collections: StackNavigator,
     Map: MapScreen,
     Settings: UserSettingsScreen,
     Photo: PhotosScreen
