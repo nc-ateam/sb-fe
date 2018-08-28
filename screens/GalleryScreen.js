@@ -19,8 +19,7 @@ class GalleryScreen extends React.Component {
         mediaTypes: "Images"
       });
 
-      // this.setState({ image: result.uri }).then(() => {
-      this.uploadImage(result.uri, "test-image")
+      this.setState({ image: result.uri })
         .then(() => {
           Alert.alert("SUCCESS");
         })
@@ -28,14 +27,14 @@ class GalleryScreen extends React.Component {
           console.log(error);
           Alert.alert(error);
         });
-    }
+      }
   };
 
   uploadImage = async (uri, imageName) => {
     const { username } = this.props;
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
-      const response = await fetch(uri);
+      const response = await fetch(this.state.image);
       let result = await Expo.Location.getCurrentPositionAsync();
       const blob = await response.blob();
       let filename = `~${result.coords.longitude},${
@@ -104,7 +103,7 @@ class GalleryScreen extends React.Component {
           <Text>Pick Image</Text>
         </Button>
         {this.state.image ? (
-          <Button onPress={this.pickImage}>
+          <Button onPress={this.uploadImage}>
             <Text>Upload Image</Text>
           </Button>
         ) : null}
