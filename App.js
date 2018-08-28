@@ -45,7 +45,11 @@ class App extends React.Component {
   componentDidMount() {
     api
       .fetchAllUsers()
-      .then(users => this.setState({ testUser: users[1], testPassword: "a" }));
+      .then(users =>
+        this.setState({ testUser: users[1], testPassword: "a" }, () =>
+          console.log(this.state.testUser.visitedLandmarks[0])
+        )
+      );
   }
 
   handleLogin = (username, password) => {
@@ -81,9 +85,7 @@ const StackNavigator = createStackNavigator(
 const DrawerNavigator = createDrawerNavigator(
   {
     Collections: StackNavigator,
-    Map: MapScreen,
-    Settings: UserSettingsScreen,
-    Photo: PhotosScreen
+    Settings: UserSettingsScreen
   },
   {
     contentComponent: props => (

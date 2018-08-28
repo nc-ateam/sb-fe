@@ -5,23 +5,24 @@ import { MapView } from "expo";
 import * as api from "../api/api";
 import Achievements from "../components/Achievements";
 
-const { width, height } = Dimensions.get("window");
-const halfHeight = height / 3;
-const ASPECT_RATIO = width / height;
-const LATITUDE = 0;
-const LONGITUDE = 0;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const { height } = Dimensions.get("window");
+const thirdOfScreenHeight = height / 3;
+const DELTA = 0.06;
 const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
 
 class MapScreen extends Component {
   state = {
-    region: {},
+    region: {
+      latitude: 0,
+      longitude: 0,
+      latitudeDelta: 0,
+      longitudeDelta: 0
+    },
     currentLocation: {
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA
+      latitude: 0,
+      longitude: 0,
+      latitudeDelta: 0,
+      longitudeDelta: 0
     },
     landmarks: [],
     isLoading: true,
@@ -49,26 +50,10 @@ class MapScreen extends Component {
         >
           <StatusBar />
         </View>
+
         {!isLoading && (
           <MapView
             followsUserLocation={true}
-            onMapReady={() => {
-              this.map.fitToCoordinates(
-                [
-                  {
-                    latitude: this.state.currentLocation.latitude,
-                    longitude: this.state.currentLocation.longitude
-                  }
-                ],
-                {
-                  edgePadding: { top: 150, right: 5, bottom: 5, left: 10 },
-                  animated: true
-                }
-              );
-            }}
-            ref={ref => {
-              this.map = ref;
-            }}
             style={{ height: screenHeight }}
             region={
               currentLocation && region.longitudeDelta
@@ -87,20 +72,25 @@ class MapScreen extends Component {
             {landmarks.map(landmark => {
               const coordinates = {
                 latitude: landmark.geolocation.coordinates[1],
-                longitude: landmark.geolocation.coordinates[0],
-                latitudeDelta: LATITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA
+                longitude: landmark.geolocation.coordinates[0]
               };
               return (
                 <MapView.Marker
                   key={landmark._id}
-                  onPress={() =>
+                  onPress={e => {
+                    const { coordinate } = e.nativeEvent;
                     this.setState({
-                      screenHeight: halfHeight,
+                      region: {
+                        longitude: coordinate.longitude,
+                        latitude: coordinate.latitude,
+                        latitudeDelta: 0.01,
+                        longitudeDelta: 0.04
+                      },
+                      screenHeight: thirdOfScreenHeight,
                       landmarkId: landmark._id,
                       landmarkName: landmark.landmark
-                    })
-                  }
+                    });
+                  }}
                   title={`${landmark.landmark}`}
                   pinColor="darkslateblue"
                   coordinate={coordinates}
@@ -109,7 +99,6 @@ class MapScreen extends Component {
             })}
           </MapView>
         )}
-
         {landmarkId && landmarkName && userId ? (
           <Achievements
             username={username}
@@ -119,7 +108,6 @@ class MapScreen extends Component {
             landmarkId={landmarkId}
           />
         ) : null}
-
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
           styleName="clear"
@@ -146,8 +134,8 @@ class MapScreen extends Component {
           region: {
             latitude,
             longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA
+            latitudeDelta: DELTA,
+            longitudeDelta: DELTA
           },
           landmarks,
           screenHeight: height
@@ -160,8 +148,8 @@ class MapScreen extends Component {
           currentLocation: {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA
+            latitudeDelta: DELTA,
+            longitudeDelta: DELTA
           },
           isLoading: false
         });
@@ -174,8 +162,8 @@ class MapScreen extends Component {
         currentLocation: {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA
+          latitudeDelta: DELTA,
+          longitudeDelta: DELTA
         },
         isLoading: false
       });

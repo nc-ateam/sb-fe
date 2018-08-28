@@ -12,7 +12,6 @@ class Achievements extends Component {
   render() {
     const { isLoading, photo } = this.state;
     const { landmarkName, landmarkId, navigation, username } = this.props;
-
     return !isLoading ? (
       !photo ? (
         <View style={{ flex: 1 }}>
@@ -115,6 +114,22 @@ class Achievements extends Component {
         isLoading: false
       });
     });
+  }
+
+  componentDidUpdate(prevState) {
+    const { landmarkId, userId } = this.props;
+    if (prevState.landmarkId !== landmarkId) {
+      api.fetchAllPhotosByUser(userId).then(photos => {
+        const singlePhoto = photos.filter(
+          photo => photo.belongs_to_landmark === landmarkId
+        );
+
+        this.setState({
+          photo: singlePhoto[0],
+          isLoading: false
+        });
+      });
+    }
   }
 }
 

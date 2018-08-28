@@ -12,6 +12,7 @@ class GalleryScreen extends React.Component {
 
   pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
     if (status === "granted") {
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
@@ -19,19 +20,12 @@ class GalleryScreen extends React.Component {
         mediaTypes: "Images"
       });
 
-      this.setState({ image: result.uri })
-        .then(() => {
-          Alert.alert("SUCCESS");
-        })
-        .catch(error => {
-          console.log(error);
-          Alert.alert(error);
-        });
-      }
+      this.setState({ image: result.uri });
+    }
   };
 
   uploadImage = async (uri, imageName) => {
-    const { username } = this.props;
+    const { username, navigation } = this.props;
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
       const response = await fetch(this.state.image);
@@ -52,7 +46,10 @@ class GalleryScreen extends React.Component {
             .child(filename)
             .getDownloadURL()
             .then(url => {
-              this.setState({ photo_URL: url });
+              this.setState({ photo_URL: url }, () => {
+                Alert.alert("Your photo has been successfully uploaded");
+                navigation.navigate("Map");
+              });
             });
         });
     }
