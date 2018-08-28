@@ -40,7 +40,8 @@ class MapScreen extends Component {
       landmarkId,
       landmarkName
     } = this.state;
-    const { screenProps } = this.props;
+    const { screenProps, navigation } = this.props;
+    const { userId } = screenProps;
     return (
       <View style={{ flex: 1 }}>
         <View
@@ -109,22 +110,20 @@ class MapScreen extends Component {
           </MapView>
         )}
 
-        {landmarkId && landmarkName ? (
-          <Achievements landmarkName={landmarkName} landmarkId={landmarkId} />
+        {landmarkId && landmarkName && userId ? (
+          <Achievements
+            userId={userId}
+            landmarkName={landmarkName}
+            landmarkId={landmarkId}
+          />
         ) : null}
 
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
           styleName="clear"
           leftComponent={
-            <Button
-              onPress={() =>
-                screenProps
-                  ? screenProps.openDrawer()
-                  : this.props.navigation.openDrawer()
-              }
-            >
-              <Icon style={{ color: 'black' }} name="sidebar" />
+            <Button onPress={() => navigation.openDrawer()}>
+              <Icon style={{ color: "black" }} name="sidebar" />
             </Button>
           }
           centerComponent={<Title style={{ color: 'black' }}>Map</Title>}

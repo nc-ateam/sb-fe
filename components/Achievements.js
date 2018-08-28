@@ -98,8 +98,7 @@ class Achievements extends Component {
   }
 
   componentDidMount() {
-    const userId = "5b8023affc578449fe4e3f17";
-    const { landmarkId } = this.props;
+    const { landmarkId, userId } = this.props;
     api.fetchAllPhotosByUser(userId).then(photos => {
       const singlePhoto = photos.filter(
         photo => photo.belongs_to_landmark === landmarkId
