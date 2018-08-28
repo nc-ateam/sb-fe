@@ -34,6 +34,7 @@ class LogInScreen extends Component {
               value={this.state.username}
               onChangeText={username => this.setState({ username })}
               onKeyPress={this.props.handleKeydown}
+              autoCapitalize="none"
               placeholder={"Please enter your username"}
             />
           </View>
@@ -45,6 +46,7 @@ class LogInScreen extends Component {
               onChangeText={password => this.setState({ password })}
               onKeyPress={this.props.handleKeydown}
               placeholder={"Please enter your password"}
+              autoCapitalize="none"
               secureTextEntry
             />
           </View>

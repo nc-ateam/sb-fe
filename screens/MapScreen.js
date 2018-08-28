@@ -101,6 +101,7 @@ class MapScreen extends Component {
         )}
         {landmarkId && landmarkName && userId ? (
           <Achievements
+            handleCloseButton={this.handleCloseButton}
             username={username}
             userId={userId}
             navigation={navigation}
@@ -173,6 +174,10 @@ class MapScreen extends Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
+
+  handleCloseButton = () => {
+    this.setState({ screenHeight: height });
+  };
 }
 
 AppRegistry.registerComponent("MapScreen", () => MapScreen);

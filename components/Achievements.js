@@ -11,94 +11,104 @@ class Achievements extends Component {
 
   render() {
     const { isLoading, photo } = this.state;
-    const { landmarkName, landmarkId, navigation, username } = this.props;
+    const {
+      landmarkName,
+      landmarkId,
+      navigation,
+      username,
+      handleCloseButton
+    } = this.props;
     return !isLoading ? (
-      !photo ? (
+      <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
-          <View style={{ flex: 1, paddingTop: 50 }}>
-            <View
+          <View style={{ justifyContent: "center", alignItems: "center" }} />
+          <View>
+            <Button
+              styleName="clear"
               style={{
-                justifyContent: "center",
-                alignItems: "center"
+                width: 60,
+                marginBottom: 15,
+                marginRight: 0,
+                marginTop: 15,
+                alignSelf: "flex-end"
               }}
-            />
+              onPress={() => handleCloseButton()}
+            >
+              <Icon name="close" />
+            </Button>
+          </View>
 
+          {!photo ? (
             <View>
               <Heading style={{ textAlign: "center" }}>{landmarkName}</Heading>
               <Text style={{ textAlign: "center" }}>Not collected</Text>
-            </View>
 
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Button
-                onPress={() =>
-                  navigation.navigate("Photo", {
-                    landmarkId,
-                    username
-                  })
-                }
-                style={{
-                  marginTop: 40,
-                  marginBottom: 10,
-                  width: 60,
-                  height: 60
-                }}
-              >
-                <Icon name="take-a-photo" />
-              </Button>
-            </View>
-          </View>
-        </View>
-      ) : (
-        <View style={{ flex: 1 }}>
-          <View style={{ paddingTop: 30 }}>
-            <Heading style={{ textAlign: "center" }}>{landmarkName}</Heading>
-            <Text style={{ textAlign: "center", fontWeight: "700" }}>
-              Collected
-            </Text>
-            <Icon
-              style={{ color: "green", marginTop: 20 }}
-              name="checkbox-on"
-            />
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                paddingLeft: 10,
-                paddingRight: 10,
-                paddingTop: 30,
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.8,
-                shadowRadius: 3,
-                elevation: 1
-              }}
-            >
-              <Lightbox
-                activeProps={{
-                  resizeMode: "contain",
-                  flex: 1,
-                  width: null,
-                  height: null
-                }}
-              >
-                <Image
-                  style={{ width: 200, height: 200 }}
-                  // resizeMode="contain"
-                  source={{
-                    uri: `${photo.firebase_url}`
+              <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <Button
+                  onPress={() =>
+                    navigation.navigate("Photo", {
+                      landmarkId,
+                      username
+                    })
+                  }
+                  style={{
+                    marginTop: 40,
+                    marginBottom: 10,
+                    width: 60,
+                    height: 60,
+                    borderWidth: 1,
+                    borderColor: "#d6d7da"
                   }}
-                />
-              </Lightbox>
+                >
+                  <Icon name="take-a-photo" />
+                </Button>
+              </View>
             </View>
-          </View>
+          ) : (
+            <View>
+              <Heading style={{ textAlign: "center" }}>{landmarkName}</Heading>
+              <Text style={{ textAlign: "center" }}>Collected</Text>
+              <Icon
+                style={{ color: "green", marginTop: 10 }}
+                name="checkbox-on"
+              />
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 20,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.8,
+                  shadowRadius: 3,
+                  elevation: 1
+                }}
+              >
+                <Lightbox
+                  activeProps={{
+                    resizeMode: "contain",
+                    flex: 1,
+                    width: null,
+                    height: null
+                  }}
+                >
+                  <Image
+                    style={{ width: 200, height: 200 }}
+                    source={{
+                      uri: `${
+                        photo.firebase_url // resizeMode="contain"
+                      }`
+                    }}
+                  />
+                </Lightbox>
+              </View>
+            </View>
+          )}
         </View>
-      )
+      </View>
     ) : null;
   }
 
