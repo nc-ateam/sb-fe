@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import { View, NavigationBar, Icon, Title, Button } from "@shoutem/ui";
-import { Dimensions, AppRegistry, StatusBar, Platform } from "react-native";
-import { MapView } from "expo";
-import * as api from "../api/api";
-import Achievements from "../components/Achievements";
+import React, { Component } from 'react';
+import { View, NavigationBar, Icon, Title, Button } from '@shoutem/ui';
+import { Dimensions, AppRegistry, StatusBar, Platform } from 'react-native';
+import { MapView } from 'expo';
+import * as api from '../api/api';
+import Achievements from '../components/Achievements';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 const halfHeight = height / 3;
 const ASPECT_RATIO = width / height;
 const LATITUDE = 0;
 const LONGITUDE = 0;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : StatusBar.currentHeight;
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 
 class MapScreen extends Component {
   state = {
@@ -26,8 +26,8 @@ class MapScreen extends Component {
     landmarks: [],
     isLoading: true,
     screenHeight: 0,
-    landmarkId: "",
-    landmarkName: ""
+    landmarkId: '',
+    landmarkName: ''
   };
 
   render() {
@@ -45,12 +45,30 @@ class MapScreen extends Component {
     return (
       <View style={{ flex: 1 }}>
         <View
-          style={{ height: STATUSBAR_HEIGHT, backgroundColor: "lightgrey" }}
+          style={{ height: STATUSBAR_HEIGHT, backgroundColor: 'lightgrey' }}
         >
           <StatusBar />
         </View>
         {!isLoading && (
           <MapView
+            followsUserLocation={true}
+            onMapReady={() => {
+              this.map.fitToCoordinates(
+                [
+                  {
+                    latitude: this.state.currentLocation.latitude,
+                    longitude: this.state.currentLocation.longitude
+                  }
+                ],
+                {
+                  edgePadding: { top: 150, right: 5, bottom: 5, left: 10 },
+                  animated: true
+                }
+              );
+            }}
+            ref={(ref) => {
+              this.map = ref;
+            }}
             style={{ height: screenHeight }}
             region={
               currentLocation && region.longitudeDelta
@@ -64,9 +82,9 @@ class MapScreen extends Component {
             <MapView.Marker
               coordinate={currentLocation}
               title="Your current location"
-            />{" "}
+            />{' '}
             {/* landmark markers below */}
-            {landmarks.map(landmark => {
+            {landmarks.map((landmark) => {
               const coordinates = {
                 latitude: landmark.geolocation.coordinates[1],
                 longitude: landmark.geolocation.coordinates[0],
@@ -108,7 +126,7 @@ class MapScreen extends Component {
               <Icon style={{ color: "black" }} name="sidebar" />
             </Button>
           }
-          centerComponent={<Title style={{ color: "black" }}>Map</Title>}
+          centerComponent={<Title style={{ color: 'black' }}>Map</Title>}
         />
       </View>
     );
@@ -121,7 +139,7 @@ class MapScreen extends Component {
         latitude,
         longitude
       } = this.props.navigation.state.params;
-      api.fetchLandmarksByCity(cityId).then(landmarks => {
+      api.fetchLandmarksByCity(cityId).then((landmarks) => {
         this.setState({
           region: {
             latitude,
@@ -135,7 +153,7 @@ class MapScreen extends Component {
       });
     }
     navigator.geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         this.setState({
           currentLocation: {
             latitude: position.coords.latitude,
@@ -146,10 +164,10 @@ class MapScreen extends Component {
           isLoading: false
         });
       },
-      error => console.log(error.message),
+      (error) => console.log(error.message),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-    this.watchID = navigator.geolocation.watchPosition(position => {
+    this.watchID = navigator.geolocation.watchPosition((position) => {
       this.setState({
         currentLocation: {
           latitude: position.coords.latitude,
@@ -167,6 +185,6 @@ class MapScreen extends Component {
   }
 }
 
-AppRegistry.registerComponent("MapScreen", () => MapScreen);
+AppRegistry.registerComponent('MapScreen', () => MapScreen);
 
 export default MapScreen;
