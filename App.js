@@ -45,11 +45,7 @@ class App extends React.Component {
   componentDidMount() {
     api
       .fetchAllUsers()
-      .then(users =>
-        this.setState({ testUser: users[1], testPassword: "a" }, () =>
-          console.log(this.state.testUser.visitedLandmarks[0])
-        )
-      );
+      .then(users => this.setState({ testUser: users[1], testPassword: "a" }));
   }
 
   handleLogin = (username, password) => {
