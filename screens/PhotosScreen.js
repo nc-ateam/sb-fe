@@ -134,18 +134,31 @@ export default class CameraScreen extends React.Component {
   takePicture = () => {
     if (this.camera) {
       this.camera.takePictureAsync({ exif: true }).then((photo) => {
-        console.log(photo.exif);
-        ImageManipulator.manipulate(photo.uri, [
-          { rotate: photo.exif.Orientation + 180 },
-          {
-            resize: {
-              height: photo.exif.PixelXDimension,
-              width: photo.exif.PixelYDimension
+        if (photo.exif.PixelXDimension > photo.exif.PixelYDimension) {
+          ImageManipulator.manipulate(photo.uri, [
+            { rotate: photo.exif.Orientation + 180 },
+            {
+              resize: {
+                height: photo.exif.PixelXDimension,
+                width: photo.exif.PixelYDimension
+              }
             }
-          }
-        ]).then((rotatedPhoto) =>
-          CameraRoll.saveToCameraRoll(rotatedPhoto.uri, 'photo')
-        );
+          ]).then((rotatedPhoto) =>
+            CameraRoll.saveToCameraRoll(rotatedPhoto.uri, 'photo')
+          );
+        } else {
+          ImageManipulator.manipulate(photo.uri, [
+            { rotate: photo.exif.Orientation },
+            {
+              resize: {
+                height: photo.exif.PixelXDimension,
+                width: photo.exif.PixelYDimension
+              }
+            }
+          ]).then((rotatedPhoto) =>
+            CameraRoll.saveToCameraRoll(rotatedPhoto.uri, 'photo')
+          );
+        }
       });
     }
   };
@@ -272,8 +285,8 @@ export default class CameraScreen extends React.Component {
         {this.renderTopBar()}
         {this.renderBottomBar()}
       </Camera>
-      {this.state.faceDetecting && this.renderFaces()}
-      {this.state.faceDetecting && this.renderLandmarks()}
+      {/* {this.state.faceDetecting && this.renderFaces()}
+      {this.state.faceDetecting && this.renderLandmarks()} */}
       {this.state.showMoreOptions && this.renderMoreOptions()}
     </View>
   );
