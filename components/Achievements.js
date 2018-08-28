@@ -11,7 +11,7 @@ class Achievements extends Component {
 
   render() {
     const { isLoading, photo } = this.state;
-    const { landmarkName } = this.props;
+    const { landmarkName, landmarkId, navigation, username } = this.props;
 
     return !isLoading ? (
       !photo ? (
@@ -36,6 +36,12 @@ class Achievements extends Component {
               }}
             >
               <Button
+                onPress={() =>
+                  navigation.navigate("Photo", {
+                    landmarkId,
+                    username
+                  })
+                }
                 style={{
                   marginTop: 40,
                   marginBottom: 10,

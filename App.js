@@ -31,7 +31,9 @@ class App extends React.Component {
   render() {
     const { loggedIn, testUser } = this.state;
     return loggedIn ? (
-      <DrawerNavigator screenProps={{ userId: testUser._id }} />
+      <DrawerNavigator
+        screenProps={{ userId: testUser._id, username: testUser.username }}
+      />
     ) : (
       <LogInScreen
         handleKeyDown={this.handleKeyDown}
@@ -67,7 +69,8 @@ const StackNavigator = createStackNavigator(
     Countries: CountriesScreen,
     Cities: CitiesByCountryScreen,
     Map: MapScreen,
-    Achievements: Achievements
+    Achievements: Achievements,
+    Photo: PhotosScreen
   },
   {
     initialRouteName: "Countries",

@@ -158,19 +158,21 @@ export default class CameraScreen extends React.Component {
   };
 
   renderGallery() {
-    CameraRoll.getPhotos({
-      first: 20,
-      assetType: "Photos"
-    })
-      .then(r => {
-        this.setState({ photos: r.edges });
-      })
-      .catch(err => {
-        console.log("error loading images");
-      });
+    // CameraRoll.getPhotos({
+    //   first: 20,
+    //   assetType: "Photos"
+    // })
+    //   .then(r => {
+    //     this.setState({ photos: r.edges });
+    //   })
+    //   .catch(err => {
+    //     console.log("error loading images");
+    //   });
 
     return (
       <GalleryScreen
+        landmarkId={this.props.navigation.state.params.landmarkId}
+        username={this.props.navigation.state.params.username}
         navigation={this.props.navigation}
         onPress={this.toggleView.bind(this)}
       />
