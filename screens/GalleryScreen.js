@@ -83,7 +83,7 @@ class GalleryScreen extends React.Component {
 
   render() {
     let { image } = this.state;
-
+    const { navigation } = this.props;
     return (
       <View
         style={{
@@ -106,11 +106,16 @@ class GalleryScreen extends React.Component {
         ) : null}
         <NavigationBar
           leftComponent={
-            <Button onPress={() => this.props.navigation.openDrawer()}>
+            <Button onPress={() => navigation.openDrawer()}>
               <Icon name="sidebar" />
             </Button>
           }
           centerComponent={<Title>Gallery</Title>}
+          rightComponent={
+            <Button onPress={() => navigation.goBack()}>
+              <Text style={{ color: "black", marginRight: 5 }}>Back</Text>
+            </Button>
+          }
         />
       </View>
     );

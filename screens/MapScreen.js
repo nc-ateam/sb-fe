@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, NavigationBar, Icon, Title, Button } from "@shoutem/ui";
+import { View, NavigationBar, Icon, Title, Button, Text } from "@shoutem/ui";
 import { Dimensions, AppRegistry, StatusBar, Platform } from "react-native";
 import { MapView } from "expo";
 import * as api from "../api/api";
@@ -118,6 +118,11 @@ class MapScreen extends Component {
             </Button>
           }
           centerComponent={<Title style={{ color: "black" }}>Map</Title>}
+          rightComponent={
+            <Button onPress={() => navigation.goBack()}>
+              <Text style={{ color: "black", marginRight: 5 }}>Back</Text>
+            </Button>
+          }
         />
       </View>
     );
