@@ -7,7 +7,8 @@ import {
   ImageBackground,
   Title,
   Button,
-  Tile
+  Tile,
+  Heading
 } from "@shoutem/ui";
 import { ScrollView } from "react-native";
 import * as api from "../api/api";
@@ -25,20 +26,22 @@ class CountriesScreen extends Component {
   }
 
   render() {
-    const { screenProps, navigation } = this.props;
+    const { navigation } = this.props;
     const { countries, isLoading } = this.state;
     return (
       <View style={{ flex: 1 }}>
         {!isLoading && (
-          <ScrollView
-            contentContainerStyle={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
+          <ScrollView contentContainerStyle={{ paddingTop: 80 }}>
+            <Heading style={{ textAlign: "center" }}>Choose a country</Heading>
             {countries.map(country => (
-              <View key={country._id}>
+              <View
+                style={{
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                  paddingVertical: 5
+                }}
+                key={country._id}
+              >
                 <ImageBackground
                   styleName="featured"
                   source={{ uri: country.picture_url }}
@@ -66,7 +69,7 @@ class CountriesScreen extends Component {
 
         <NavigationBar
           leftComponent={
-            <Button onPress={() => screenProps.openDrawer()}>
+            <Button onPress={() => navigation.openDrawer()}>
               <Icon name="sidebar" />
             </Button>
           }

@@ -21,5 +21,15 @@ export const fetchCitiesByCountry = countryId => {
 };
 
 export const fetchAllPhotosByUser = userId => {
-  return fetch;
+  return fetch(
+    `https://stamp-book-api.herokuapp.com/api/users/${userId}/photos`
+  )
+    .then(response => response.json())
+    .then(responseJson => responseJson.photos);
+};
+
+export const fetchAllUsers = () => {
+  return fetch("https://stamp-book-api.herokuapp.com/api/users")
+    .then(response => response.json())
+    .then(responseJson => responseJson.users);
 };

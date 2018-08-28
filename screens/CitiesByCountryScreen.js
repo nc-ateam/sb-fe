@@ -9,7 +9,8 @@ import {
   Title,
   Icon,
   Tile,
-  ImageBackground
+  ImageBackground,
+  Heading
 } from "@shoutem/ui";
 
 class CitiesByCountryScreen extends Component {
@@ -28,29 +29,38 @@ class CitiesByCountryScreen extends Component {
 
   render() {
     const { isLoading, cities } = this.state;
-    const { screenProps, navigation } = this.props;
+    const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
         {!isLoading && (
-          <ScrollView
-            contentContainerStyle={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingTop: 250
-            }}
-          >
+          <ScrollView contentContainerStyle={{ paddingTop: 60 }}>
             {/* to return to previous Contries screen */}
-            <Button
-              style={{ marginTop: 20, marginBottom: 20 }}
-              onPress={() => navigation.navigate("Countries")}
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
             >
-              <Text>Go back to countries</Text>
-            </Button>
+              <Button
+                style={{ marginTop: 40, marginBottom: 10, width: 150 }}
+                onPress={() => navigation.goBack()}
+              >
+                <Text>{"< Countries"}</Text>
+              </Button>
+            </View>
 
+            <Heading style={{ textAlign: "center" }}>Choose a city</Heading>
             {cities.map(city => {
               return (
-                <View key={city._id}>
+                <View
+                  style={{
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                    paddingVertical: 5
+                  }}
+                  key={city._id}
+                >
                   <ImageBackground
                     styleName="featured"
                     source={{ uri: city.picture_url }}
@@ -58,7 +68,7 @@ class CitiesByCountryScreen extends Component {
                     <Tile>
                       <Button
                         onPress={() =>
-                          this.props.navigation.navigate("Map", {
+                          navigation.navigate("Map", {
                             cityId: city._id,
                             latitude: city.geolocation.coordinates[1],
                             longitude: city.geolocation.coordinates[0]
@@ -78,7 +88,7 @@ class CitiesByCountryScreen extends Component {
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
           leftComponent={
-            <Button onPress={() => screenProps.openDrawer()}>
+            <Button onPress={() => navigation.openDrawer()}>
               <Icon name="sidebar" />
             </Button>
           }

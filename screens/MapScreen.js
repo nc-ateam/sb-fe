@@ -3,8 +3,10 @@ import { View, NavigationBar, Icon, Title, Button } from "@shoutem/ui";
 import { Dimensions, AppRegistry, StatusBar, Platform } from "react-native";
 import { MapView } from "expo";
 import * as api from "../api/api";
+import Achievements from "../components/Achievements";
 
-let { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
+const halfHeight = height / 3;
 const ASPECT_RATIO = width / height;
 const LATITUDE = 0;
 const LONGITUDE = 0;
@@ -22,12 +24,24 @@ class MapScreen extends Component {
       longitudeDelta: LONGITUDE_DELTA
     },
     landmarks: [],
-    isLoading: true
+    isLoading: true,
+    screenHeight: 0,
+    landmarkId: "",
+    landmarkName: ""
   };
 
   render() {
-    const { landmarks, region, isLoading, currentLocation } = this.state;
-    const { screenProps } = this.props;
+    const {
+      landmarks,
+      region,
+      isLoading,
+      currentLocation,
+      screenHeight,
+      landmarkId,
+      landmarkName
+    } = this.state;
+    const { screenProps, navigation } = this.props;
+    const { userId, username } = screenProps;
     return (
       <View style={{ flex: 1 }}>
         <View
@@ -37,7 +51,25 @@ class MapScreen extends Component {
         </View>
         {!isLoading && (
           <MapView
-            style={{ flex: 1, height: height }}
+            followsUserLocation={true}
+            onMapReady={() => {
+              this.map.fitToCoordinates(
+                [
+                  {
+                    latitude: this.state.currentLocation.latitude,
+                    longitude: this.state.currentLocation.longitude
+                  }
+                ],
+                {
+                  edgePadding: { top: 150, right: 5, bottom: 5, left: 10 },
+                  animated: true
+                }
+              );
+            }}
+            ref={ref => {
+              this.map = ref;
+            }}
+            style={{ height: screenHeight }}
             region={
               currentLocation && region.longitudeDelta
                 ? region
@@ -62,6 +94,13 @@ class MapScreen extends Component {
               return (
                 <MapView.Marker
                   key={landmark._id}
+                  onPress={() =>
+                    this.setState({
+                      screenHeight: halfHeight,
+                      landmarkId: landmark._id,
+                      landmarkName: landmark.landmark
+                    })
+                  }
                   title={`${landmark.landmark}`}
                   pinColor="darkslateblue"
                   coordinate={coordinates}
@@ -71,17 +110,21 @@ class MapScreen extends Component {
           </MapView>
         )}
 
+        {landmarkId && landmarkName && userId ? (
+          <Achievements
+            username={username}
+            userId={userId}
+            navigation={navigation}
+            landmarkName={landmarkName}
+            landmarkId={landmarkId}
+          />
+        ) : null}
+
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
           styleName="clear"
           leftComponent={
-            <Button
-              onPress={() =>
-                screenProps
-                  ? screenProps.openDrawer()
-                  : this.props.navigation.openDrawer()
-              }
-            >
+            <Button onPress={() => navigation.openDrawer()}>
               <Icon style={{ color: "black" }} name="sidebar" />
             </Button>
           }
@@ -106,7 +149,8 @@ class MapScreen extends Component {
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA
           },
-          landmarks
+          landmarks,
+          screenHeight: height
         });
       });
     }

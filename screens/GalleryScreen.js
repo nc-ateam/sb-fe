@@ -7,9 +7,7 @@ import { NavigationBar, Icon, Title, Button, Text } from "@shoutem/ui";
 class GalleryScreen extends React.Component {
   state = {
     image: null,
-    username: "brommers",
-    photo_URL: "",
-    image: ''
+    photo_URL: ""
   };
 
   pickImage = async () => {
@@ -32,25 +30,25 @@ class GalleryScreen extends React.Component {
       }
   };
 
-  uploadImage = async () => {
-    console.log(this.state.image)
+  uploadImage = async (uri, imageName) => {
+    const { username } = this.props;
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
       const response = await fetch(this.state.image);
       let result = await Expo.Location.getCurrentPositionAsync();
       const blob = await response.blob();
-      let filename = `~${result.coords.longitude},${result.coords.latitude}~${
-        this.state.username
-      }jpeg`;
+      let filename = `~${result.coords.longitude},${
+        result.coords.latitude
+      }~${username}jpeg`;
       firebase
         .storage()
         .ref()
-        .child(`${this.state.username}/` + filename)
+        .child(`${username}/` + filename)
         .put(blob)
         .then(response => {
           firebase
             .storage()
-            .ref(this.state.username)
+            .ref(username)
             .child(filename)
             .getDownloadURL()
             .then(url => {
@@ -61,9 +59,10 @@ class GalleryScreen extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const { landmarkId } = this.props;
     if (prevState.photo_URL !== this.state.photo_URL) {
       fetch(
-        "https://stamp-book-api.herokuapp.com/api/landmarks/5b7ff102d149a1272a3ca318/checkLandmark",
+        `https://stamp-book-api.herokuapp.com/api/landmarks/${landmarkId}/checkLandmark`,
         {
           method: "POST",
           headers: {
@@ -110,7 +109,7 @@ class GalleryScreen extends React.Component {
         ) : null}
         <NavigationBar
           leftComponent={
-            <Button onPress={() => this.props.screenProps.openDrawer()}>
+            <Button onPress={() => this.props.navigation.openDrawer()}>
               <Icon name="sidebar" />
             </Button>
           }
