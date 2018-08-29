@@ -16,12 +16,7 @@ class LogInScreen extends Component {
       return <AppLoading />;
     }
     return (
-      <View
-        style={{
-          flex: 1,
-          paddingTop: Constants.statusBarHeight
-        }}
-      >
+      <View style={{ flex: 1, paddingTop: Constants.statusBarHeight }}>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Image
             style={{ height: 150, marginTop: 130, marginBottom: 40 }}
@@ -63,13 +58,21 @@ class LogInScreen extends Component {
           />
 
           <Button
-            styleName="secondary"
-            style={{ width: 90 }}
+            style={{
+              width: 90,
+              backgroundColor: "#491d66",
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.5,
+              shadowRadius: 3,
+              elevation: 1,
+              borderColor: "#491d66"
+            }}
             onPress={() =>
               this.props.handleLogin(this.state.username, this.state.password)
             }
           >
-            <Text>Log In</Text>
+            <Text style={{ color: "white" }}>Log In</Text>
           </Button>
         </View>
       </View>
