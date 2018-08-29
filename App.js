@@ -69,9 +69,7 @@ class App extends React.Component {
   };
   handleLogOut = () => {
     this.setState({
-      loggedIn: false,
-      testUser: {},
-      testPassword: ""
+      loggedIn: false
     });
     Alert.alert("You have successfully logged out");
   };

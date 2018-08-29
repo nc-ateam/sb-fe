@@ -52,7 +52,7 @@ class MapScreen extends Component {
         {!isLoading && landmarks ? (
           <MapView
             followsUserLocation={true}
-            style={{ height: screenHeight, marginTop: 50 }}
+            style={{ marginTop: 50, height: screenHeight }}
             region={
               currentLocation && region.longitudeDelta
                 ? region
@@ -109,6 +109,7 @@ class MapScreen extends Component {
         ) : null}
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
+          style={{ container: { borderBottomColor: "#BDBDBD" } }}
           leftComponent={
             <Button onPress={() => navigation.openDrawer()}>
               <Icon name="sidebar" />
@@ -178,7 +179,11 @@ class MapScreen extends Component {
   }
 
   handleCloseButton = () => {
-    this.setState({ screenHeight: height });
+    this.setState({
+      screenHeight: height,
+      landmarkId: "",
+      landmarkName: ""
+    });
   };
 }
 

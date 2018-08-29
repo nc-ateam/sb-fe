@@ -18,12 +18,25 @@ class ProfileScreen extends Component {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <View>
           <Image
-            style={{ borderWidth: 0.5, borderColor: "black", marginBottom: 30 }}
+            style={{
+              borderWidth: 0.5,
+              borderColor: "#151515",
+              marginBottom: 30
+            }}
             styleName="medium-avatar"
             source={{ uri: avatar }}
           />
         </View>
-        <Title style={{ marginTop: 10, marginBottom: 30 }}>{username}</Title>
+        <Title style={{ marginTop: 10, marginBottom: 20 }}>{username}</Title>
+        <View
+          style={{
+            alignSelf: "center",
+            borderBottomWidth: 1,
+            marginBottom: 21,
+            borderBottomColor: "#f5a623",
+            width: 70
+          }}
+        />
         <View style={{ width: 250, height: 130 }}>
           <Text style={{ marginVertical: 10 }}>name: {fullName}</Text>
           <Text style={{ marginVertical: 10 }}>email: {email}</Text>
@@ -47,6 +60,7 @@ class ProfileScreen extends Component {
 
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
+          style={{ container: { borderBottomColor: "#BDBDBD" } }}
           leftComponent={
             <Icon onPress={() => navigation.openDrawer()} name="sidebar" />
           }

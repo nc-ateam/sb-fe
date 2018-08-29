@@ -6,7 +6,6 @@ import {
   Heading,
   Button,
   Lightbox,
-  Divider,
   Subtitle
 } from "@shoutem/ui";
 import * as api from "../api/api";
@@ -28,7 +27,14 @@ class Achievements extends Component {
       handleCloseButton
     } = this.props;
     return !isLoading ? (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "white",
+          borderTopColor: "#BDBDBD",
+          borderTopWidth: 1
+        }}
+      >
         <View style={{ flex: 1 }}>
           <View style={{ justifyContent: "center", alignItems: "center" }} />
           <View>
@@ -64,12 +70,13 @@ class Achievements extends Component {
 
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <Button
-                  onPress={() =>
+                  onPress={() => {
                     navigation.navigate("Photo", {
                       landmarkId,
                       username
-                    })
-                  }
+                    });
+                    handleCloseButton();
+                  }}
                   style={{
                     marginTop: 40,
                     marginBottom: 10,
@@ -115,7 +122,7 @@ class Achievements extends Component {
                     textAlign: "center",
                     paddingTop: 10,
                     paddingBottom: 10,
-                    paddingRight: 10
+                    paddingRight: 5
                   }}
                 >
                   Collected{" "}

@@ -18,6 +18,7 @@ class ProfileScreen extends Component {
 
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
+          style={{ container: { borderBottomColor: "#BDBDBD" } }}
           leftComponent={
             <Icon onPress={() => navigation.openDrawer()} name="sidebar" />
           }
