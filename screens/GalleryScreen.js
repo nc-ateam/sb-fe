@@ -75,8 +75,13 @@ class GalleryScreen extends React.Component {
           if (response.status === 400) {
             Alert.alert("You are not near the landmark!");
             return response.json();
-          } else {
+          } else if (response.status === 201) {
             Alert.alert("Photo uploaded!");
+            return response.json();
+          } else if (response.status === 503) {
+            Alert.alert(
+              "Service is currently unavailable. Please try again later"
+            );
             return response.json();
           }
         })
