@@ -9,7 +9,7 @@ import {
 import { View, Text } from "@shoutem/ui";
 import { ScrollView, Alert, Keyboard } from "react-native";
 import MapScreen from "./screens/MapScreen";
-import UserSettingsScreen from "./screens/UserSettingsScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import PhotosScreen from "./screens/PhotosScreen";
 import Achievements from "./components/Achievements";
 import CountriesScreen from "./screens/CountriesScreen";
@@ -32,7 +32,14 @@ class App extends React.Component {
     const { loggedIn, testUser } = this.state;
     return loggedIn ? (
       <DrawerNavigator
-        screenProps={{ userId: testUser._id, username: testUser.username }}
+        screenProps={{
+          userId: testUser._id,
+          username: testUser.username,
+          avatar: testUser.picture_url,
+          fullName: testUser.fullname,
+          email: testUser.email,
+          handleLogOut: this.handleLogOut
+        }}
       />
     ) : (
       <LogInScreen
@@ -62,6 +69,14 @@ class App extends React.Component {
       Keyboard.dismiss();
     }
   };
+  handleLogOut = () => {
+    this.setState({
+      loggedIn: false,
+      testUser: {},
+      testPassword: ""
+    });
+    Alert.alert("You have successfully logged out");
+  };
 }
 
 const StackNavigator = createStackNavigator(
@@ -70,7 +85,8 @@ const StackNavigator = createStackNavigator(
     Cities: CitiesByCountryScreen,
     Map: MapScreen,
     Achievements: Achievements,
-    Photo: PhotosScreen
+    Photo: PhotosScreen,
+    LogIn: LogInScreen
   },
   {
     initialRouteName: "Countries",
@@ -81,7 +97,7 @@ const StackNavigator = createStackNavigator(
 const DrawerNavigator = createDrawerNavigator(
   {
     Collections: StackNavigator,
-    Settings: UserSettingsScreen
+    Profile: ProfileScreen
   },
   {
     contentComponent: props => (

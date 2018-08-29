@@ -52,11 +52,13 @@ class LogInScreen extends Component {
           </View>
 
           <Button
+            styleName="secondary"
+            style={{ width: 90 }}
             onPress={() =>
               this.props.handleLogin(this.state.username, this.state.password)
             }
           >
-            <Text>SUBMIT</Text>
+            <Text>Log In</Text>
           </Button>
         </View>
       </View>
