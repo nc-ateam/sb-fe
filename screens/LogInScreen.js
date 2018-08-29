@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Font, AppLoading } from "expo";
-import { Text, View, Heading, Button, Icon } from "@shoutem/ui";
-import { TextInput } from "react-native";
+import { Text, View, Button } from "@shoutem/ui";
+import { TextInput, Image } from "react-native";
 import { Constants } from "expo";
 
 class LogInScreen extends Component {
@@ -16,40 +16,51 @@ class LogInScreen extends Component {
       return <AppLoading />;
     }
     return (
-      <View style={{ flex: 1, paddingTop: Constants.statusBarHeight }}>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            paddingTop: 170
-          }}
-        >
-          <Heading>StampBook</Heading>
-          <Icon style={{ paddingTop: 17, paddingBottom: 25 }} name="books" />
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <TextInput
-              style={{ width: 200, height: 30, marginVertical: 10 }}
-              value={this.state.username}
-              onChangeText={username => this.setState({ username })}
-              onKeyPress={this.props.handleKeydown}
-              autoCapitalize="none"
-              placeholder={"Please enter your username"}
-            />
-          </View>
+      <View
+        style={{
+          flex: 1,
+          paddingTop: Constants.statusBarHeight
+        }}
+      >
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Image
+            style={{ height: 150, marginTop: 130, marginBottom: 40 }}
+            resizeMode="contain"
+            source={require("../assets/SBLogo.png")}
+          />
 
-          <View style={{ flexDirection: "row" }}>
-            <TextInput
-              style={{ width: 200, height: 30, marginVertical: 10 }}
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-              onKeyPress={this.props.handleKeydown}
-              placeholder={"Please enter your password"}
-              autoCapitalize="none"
-              secureTextEntry
-            />
-          </View>
+          <TextInput
+            style={{
+              width: 200,
+              height: 30,
+              marginBottom: 10,
+              borderBottomWidth: 0.5,
+              borderBottomColor: "grey",
+              textAlign: "center"
+            }}
+            value={this.state.username}
+            onChangeText={username => this.setState({ username })}
+            onKeyPress={this.props.handleKeydown}
+            autoCapitalize="none"
+            placeholder={"Please enter your username"}
+          />
+
+          <TextInput
+            style={{
+              width: 200,
+              height: 30,
+              marginBottom: 50,
+              borderBottomWidth: 0.5,
+              borderBottomColor: "grey",
+              textAlign: "center"
+            }}
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+            onKeyPress={this.props.handleKeydown}
+            placeholder={"Please enter your password"}
+            autoCapitalize="none"
+            secureTextEntry
+          />
 
           <Button
             styleName="secondary"

@@ -14,7 +14,6 @@ class ProfileScreen extends Component {
   render() {
     const { navigation, screenProps } = this.props;
     const { avatar, username, fullName, email, handleLogOut } = screenProps;
-    console.log(handleLogOut);
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Image
@@ -41,7 +40,7 @@ class ProfileScreen extends Component {
           leftComponent={
             <Icon onPress={() => navigation.openDrawer()} name="sidebar" />
           }
-          centerComponent={<Title>Settings</Title>}
+          centerComponent={<Title>Profile</Title>}
         />
       </View>
     );

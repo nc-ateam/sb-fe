@@ -1,14 +1,14 @@
 import React from "react";
 import LogInScreen from "./screens/LogInScreen";
-import { Constants } from "expo";
 import {
   createDrawerNavigator,
   DrawerItems,
   createStackNavigator
 } from "react-navigation";
-import { View, Text } from "@shoutem/ui";
-import { ScrollView, Alert, Keyboard } from "react-native";
+import { View } from "@shoutem/ui";
+import { Alert, Keyboard, Image } from "react-native";
 import MapScreen from "./screens/MapScreen";
+import FriendActivityScreen from "./screens/FriendActivityScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import PhotosScreen from "./screens/PhotosScreen";
 import Achievements from "./components/Achievements";
@@ -18,9 +18,7 @@ import * as firebase from "firebase";
 import * as api from "./api/api";
 import ApiKeys from "./config";
 
-// if (!firebase.apps.length) {
 firebase.initializeApp(ApiKeys.FirebaseConfig);
-// }
 
 class App extends React.Component {
   state = {
@@ -97,30 +95,30 @@ const StackNavigator = createStackNavigator(
 const DrawerNavigator = createDrawerNavigator(
   {
     Collections: StackNavigator,
+    "Friend Activity": FriendActivityScreen,
     Profile: ProfileScreen
   },
   {
     contentComponent: props => (
-      <ScrollView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <View
           style={{
             height: 150,
             backgroundColor: "white",
-            paddingTop: Constants.statusBarHeight,
+            marginTop: 50,
+            marginBottom: 20,
             alignItems: "center",
             justifyContent: "center"
           }}
         >
-          <Text
-            style={{
-              fontSize: 20
-            }}
-          >
-            StampBook
-          </Text>
+          <Image
+            style={{ height: 100 }}
+            resizeMode="contain"
+            source={require("./assets/SBLogo.png")}
+          />
         </View>
         <DrawerItems {...props} />
-      </ScrollView>
+      </View>
     )
   }
 );
