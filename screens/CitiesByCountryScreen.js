@@ -31,26 +31,12 @@ class CitiesByCountryScreen extends Component {
     const { isLoading, cities } = this.state;
     const { navigation } = this.props;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "white" }}>
         {!isLoading && cities ? (
-          <ScrollView contentContainerStyle={{ paddingTop: 60 }}>
-            {/* to return to previous Contries screen */}
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Button
-                style={{ marginTop: 40, marginBottom: 10, width: 150 }}
-                onPress={() => navigation.goBack()}
-              >
-                <Text>{"< Countries"}</Text>
-              </Button>
-            </View>
-
-            <Heading style={{ textAlign: "center" }}>Choose a city</Heading>
+          <ScrollView contentContainerStyle={{ paddingTop: 90 }}>
+            <Heading style={{ textAlign: "center", paddingBottom: 20 }}>
+              Choose a city
+            </Heading>
             {cities.map(city => {
               return (
                 <View
@@ -93,6 +79,11 @@ class CitiesByCountryScreen extends Component {
             </Button>
           }
           centerComponent={<Title>Collections</Title>}
+          rightComponent={
+            <Button onPress={() => navigation.goBack()}>
+              <Text style={{ color: "black", marginRight: 5 }}>Back</Text>
+            </Button>
+          }
         />
       </View>
     );

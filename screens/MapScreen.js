@@ -44,17 +44,15 @@ class MapScreen extends Component {
     const { screenProps, navigation } = this.props;
     const { userId, username } = screenProps;
     return (
-      <View style={{ flex: 1 }}>
-        <View
-          style={{ height: STATUSBAR_HEIGHT, backgroundColor: "lightgrey" }}
-        >
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <View style={{ height: STATUSBAR_HEIGHT }}>
           <StatusBar />
         </View>
 
         {!isLoading && landmarks ? (
           <MapView
             followsUserLocation={true}
-            style={{ height: screenHeight }}
+            style={{ height: screenHeight, marginTop: 50 }}
             region={
               currentLocation && region.longitudeDelta
                 ? region
@@ -111,13 +109,12 @@ class MapScreen extends Component {
         ) : null}
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
-          styleName="clear"
           leftComponent={
             <Button onPress={() => navigation.openDrawer()}>
-              <Icon style={{ color: "black" }} name="sidebar" />
+              <Icon name="sidebar" />
             </Button>
           }
-          centerComponent={<Title style={{ color: "black" }}>Map</Title>}
+          centerComponent={<Title>Map</Title>}
           rightComponent={
             <Button onPress={() => navigation.goBack()}>
               <Text style={{ color: "black", marginRight: 5 }}>Back</Text>
