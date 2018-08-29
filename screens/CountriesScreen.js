@@ -29,10 +29,12 @@ class CountriesScreen extends Component {
     const { navigation } = this.props;
     const { countries, isLoading } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "white" }}>
         {!isLoading && (
-          <ScrollView contentContainerStyle={{ paddingTop: 80 }}>
-            <Heading style={{ textAlign: "center" }}>Choose a country</Heading>
+          <ScrollView contentContainerStyle={{ paddingTop: 90 }}>
+            <Heading style={{ textAlign: "center", paddingBottom: 20 }}>
+              Choose a country
+            </Heading>
             {countries.map(country => (
               <View
                 style={{

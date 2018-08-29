@@ -6,7 +6,14 @@ class ProfileScreen extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white"
+        }}
+      >
         <Text>Coming soon!</Text>
 
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
