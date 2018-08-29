@@ -1,23 +1,23 @@
-import React from "react";
-import { ImagePicker, Permissions } from "expo";
-import { Image, View, Alert } from "react-native";
-import * as firebase from "firebase";
-import { NavigationBar, Icon, Title, Button, Text } from "@shoutem/ui";
+import React from 'react';
+import { ImagePicker, Permissions } from 'expo';
+import { Image, View, Alert } from 'react-native';
+import * as firebase from 'firebase';
+import { NavigationBar, Icon, Title, Button, Text } from '@shoutem/ui';
 
 class GalleryScreen extends React.Component {
   state = {
     image: null,
-    photo_URL: ""
+    photo_URL: ''
   };
 
   pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-    if (status === "granted") {
+    if (status === 'granted') {
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        mediaTypes: "Images"
+        mediaTypes: 'Images'
       });
 
       this.setState({ image: result.uri });
@@ -27,7 +27,7 @@ class GalleryScreen extends React.Component {
   uploadImage = async (uri, imageName) => {
     const { username, navigation } = this.props;
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === "granted") {
+    if (status === 'granted') {
       const response = await fetch(this.state.image);
       let result = await Expo.Location.getCurrentPositionAsync();
       const blob = await response.blob();
@@ -39,16 +39,15 @@ class GalleryScreen extends React.Component {
         .ref()
         .child(`${username}/` + filename)
         .put(blob)
-        .then(response => {
+        .then((response) => {
           firebase
             .storage()
             .ref(username)
             .child(filename)
             .getDownloadURL()
-            .then(url => {
+            .then((url) => {
               this.setState({ photo_URL: url }, () => {
-                Alert.alert("Your photo has been successfully uploaded");
-                navigation.navigate("Map");
+                navigation.navigate('Map');
               });
             });
         });
@@ -58,24 +57,33 @@ class GalleryScreen extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { landmarkId } = this.props;
     if (prevState.photo_URL !== this.state.photo_URL) {
+      console.log(this.state.photo_URL);
       fetch(
         `https://stamp-book-api.herokuapp.com/api/landmarks/${landmarkId}/checkLandmark`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({ body: this.state.photo_URL })
         }
       )
-        .then(response => {
-          return response.json();
+        .then((response) => {
+          console.log(response.status);
+          // response.status - Error 400 for fail, 201 for pass.
+          if (response.status === 400) {
+            Alert.alert('You are not near the landmark!');
+            return response.json();
+          } else {
+            Alert.alert('Photo uploaded!');
+            return response.json();
+          }
         })
-        .then(responseJson => {
+        .then((responseJson) => {
           return responseJson.storedPhoto;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     }
@@ -88,9 +96,9 @@ class GalleryScreen extends React.Component {
       <View
         style={{
           flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#FFFFFF"
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#FFFFFF'
         }}
       >
         {image && (
@@ -113,7 +121,7 @@ class GalleryScreen extends React.Component {
           centerComponent={<Title>Gallery</Title>}
           rightComponent={
             <Button onPress={() => navigation.goBack()}>
-              <Text style={{ color: "black", marginRight: 5 }}>Back</Text>
+              <Text style={{ color: 'black', marginRight: 5 }}>Back</Text>
             </Button>
           }
         />

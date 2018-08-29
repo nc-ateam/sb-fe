@@ -1,5 +1,12 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Stampbook",
+    "icon": "",
+    "version": "0.1",
+    "slug": "stampbook",
+    "sdkVersion": "27.0.0",
+    "ios": {
+      "bundleIdentifier": "com.stampbook.stampbook"
+    }
   }
 }
