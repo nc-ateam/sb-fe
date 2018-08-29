@@ -154,7 +154,10 @@ class Achievements extends Component {
                   }}
                 >
                   <Image
-                    style={{ width: 180, height: 180 }}
+                    style={{
+                      width: 180,
+                      height: 180
+                    }}
                     source={{
                       uri: `${
                         photo.firebase_url // resizeMode="contain"

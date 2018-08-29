@@ -8,8 +8,6 @@ import {
   Button,
   Title,
   Icon,
-  Tile,
-  ImageBackground,
   Image,
   Subtitle,
   Caption,
@@ -37,13 +35,15 @@ class CitiesByCountryScreen extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         {!isLoading && cities ? (
-          <ScrollView contentContainerStyle={{ paddingTop: 90 }}>
+          <ScrollView
+            contentContainerStyle={{ paddingTop: 90, paddingBottom: 20 }}
+          >
             <Heading style={{ textAlign: "center", paddingBottom: 20 }}>
               Choose a city
             </Heading>
             {cities.map(city => {
               return (
-                <View
+                <ScrollView
                   style={{
                     paddingVertical: 8,
                     alignSelf: "center",
@@ -54,6 +54,7 @@ class CitiesByCountryScreen extends Component {
                   <Button
                     style={{
                       width: "100%",
+                      height: 300,
                       paddingLeft: 0,
                       paddingRight: 0
                     }}
@@ -68,41 +69,27 @@ class CitiesByCountryScreen extends Component {
                     <Card
                       style={{
                         width: "100%",
-                        borderColor: "#BDBDBD",
+                        borderColor: "#151515",
                         borderWidth: 1
                       }}
                     >
                       <Image
-                        style={{ width: "100%", height: "80%" }}
+                        style={{
+                          width: "100%",
+                          height: "80%"
+                        }}
                         source={{ uri: city.picture_url }}
                       />
-                      <View styleName="content">
-                        <Subtitle>{city.city}</Subtitle>
-                        <Caption>Progress</Caption>
+                      <View styleName="content horizontal v-center space-between">
+                        <Subtitle style={{ marginBottom: 0 }}>
+                          {city.city}
+                        </Subtitle>
+                        {/* REMEMBER TO PUT PROGRESS IN */}
+                        <Caption>Progress: 0%</Caption>
                       </View>
                     </Card>
                   </Button>
-
-                  {/* <ImageBackground
-                    styleName="featured"
-                    source={{ uri: city.picture_url }}
-                  >
-                    <Tile>
-                      <Button
-                        style={{ borderColor: "black", borderRadius: 3 }}
-                        onPress={() =>
-                          navigation.navigate("Map", {
-                            cityId: city._id,
-                            latitude: city.geolocation.coordinates[1],
-                            longitude: city.geolocation.coordinates[0]
-                          })
-                        }
-                      >
-                        <Text styleName="md-gutter-bottom">{city.city}</Text>
-                      </Button>
-                    </Tile>
-                  </ImageBackground> */}
-                </View>
+                </ScrollView>
               );
             })}
           </ScrollView>

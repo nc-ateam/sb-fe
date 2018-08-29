@@ -34,6 +34,7 @@ class CountriesScreen extends Component {
           <ScrollView
             contentContainerStyle={{
               paddingTop: 90,
+              paddingBottom: 20,
               marginLeft: 5,
               marginRight: 5
             }}
