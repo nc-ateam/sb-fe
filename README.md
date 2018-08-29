@@ -34,6 +34,10 @@ You will need to install the `expo` app from the iOS App Store.
 
 For `macOS` users, it is possible to open the app in a simulator. You will need to install the latest version of `XCode`. If you would like to do this, follow the above steps, but instead of using your device, opt to run the app in a simulator.
 
+### Potential Issue -
+
+If you're using `macOS` to build the app in `expo`, you may run into [this issue](https://github.com/nc-ateam/sb-fe/issues/76) regarding system resources. 
+
 ## Authors
 
 See the list of [contributors](https://github.com/nc-ateam/sb-fe/contributors) who participated in this project.
