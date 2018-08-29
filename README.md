@@ -21,7 +21,7 @@ Many thanks to the team behind [expo/camerja](https://github.com/expo/camerja) f
 
 ### Prerequisites
 
-To run the app, you will need an `iOS 11+` device, there is currently no support for android devices.
+To run the app, you will need an `iOS 11+` device. There is currently no support for android devices.
 
 You will need to install the `expo` app from the iOS App Store.
 
@@ -36,4 +36,4 @@ For `macOS` users, it is possible to open the app in a simulator. You will need 
 
 ## Authors
 
-See the list of [contributors](https://github.com/nc-ateam/sb-be/contributors) who participated in this project.
+See the list of [contributors](https://github.com/nc-ateam/sb-fe/contributors) who participated in this project.
