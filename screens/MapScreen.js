@@ -51,7 +51,7 @@ class MapScreen extends Component {
           <StatusBar />
         </View>
 
-        {!isLoading && (
+        {!isLoading && landmarks ? (
           <MapView
             followsUserLocation={true}
             style={{ height: screenHeight }}
@@ -98,7 +98,7 @@ class MapScreen extends Component {
               );
             })}
           </MapView>
-        )}
+        ) : null}
         {landmarkId && landmarkName && userId ? (
           <Achievements
             handleCloseButton={this.handleCloseButton}
