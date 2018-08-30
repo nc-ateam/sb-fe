@@ -24,7 +24,8 @@ class Achievements extends Component {
       landmarkId,
       navigation,
       username,
-      handleCloseButton
+      handleCloseButton,
+      handleRefresh
     } = this.props;
     return !isLoading ? (
       <View
@@ -73,9 +74,9 @@ class Achievements extends Component {
                   onPress={() => {
                     navigation.navigate("Photo", {
                       landmarkId,
-                      username
+                      username,
+                      handleRefresh
                     });
-                    handleCloseButton();
                   }}
                   style={{
                     marginTop: 40,

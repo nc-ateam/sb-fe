@@ -28,7 +28,8 @@ class MapScreen extends Component {
     isLoading: true,
     screenHeight: 0,
     landmarkId: "",
-    landmarkName: ""
+    landmarkName: "",
+    refresh: false
   };
 
   render() {
@@ -41,8 +42,10 @@ class MapScreen extends Component {
       landmarkId,
       landmarkName
     } = this.state;
+    const { handleCitiesRefresh } = this.props.navigation.state.params;
     const { screenProps, navigation } = this.props;
-    const { userId, username } = screenProps;
+    const { userId, username, visitedLandmarks } = screenProps;
+
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={{ height: STATUSBAR_HEIGHT }}>
@@ -86,11 +89,16 @@ class MapScreen extends Component {
                       },
                       screenHeight: thirdOfScreenHeight,
                       landmarkId: landmark._id,
-                      landmarkName: landmark.landmark
+                      landmarkName: landmark.landmark,
+                      refresh: false
                     });
                   }}
                   title={`${landmark.landmark}`}
-                  pinColor="darkslateblue"
+                  pinColor={
+                    visitedLandmarks.includes(landmark._id)
+                      ? "#f5a623"
+                      : "darkslateblue"
+                  }
                   coordinate={coordinates}
                 />
               );
@@ -100,6 +108,7 @@ class MapScreen extends Component {
         {landmarkId && landmarkName && userId ? (
           <Achievements
             handleCloseButton={this.handleCloseButton}
+            handleRefresh={this.handleRefresh}
             username={username}
             userId={userId}
             navigation={navigation}
@@ -117,7 +126,12 @@ class MapScreen extends Component {
           }
           centerComponent={<Title>Map</Title>}
           rightComponent={
-            <Button onPress={() => navigation.goBack()}>
+            <Button
+              onPress={() => {
+                handleCitiesRefresh();
+                navigation.goBack();
+              }}
+            >
               <Text style={{ color: "black", marginRight: 5 }}>Back</Text>
             </Button>
           }
@@ -184,6 +198,10 @@ class MapScreen extends Component {
       landmarkId: "",
       landmarkName: ""
     });
+  };
+
+  handleRefresh = () => {
+    this.setState({ refresh: true });
   };
 }
 

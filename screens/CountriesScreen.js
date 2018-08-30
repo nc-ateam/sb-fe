@@ -47,12 +47,14 @@ class CountriesScreen extends Component {
                 style={{
                   paddingLeft: 5,
                   paddingRight: 5,
-                  paddingVertical: 10
+                  paddingVertical: 10,
+                  width: "90%",
+                  alignSelf: "center"
                 }}
                 key={country._id}
               >
                 <ImageBackground
-                  style={{ alignSelf: "center", width: 350, height: 200 }}
+                  style={{ alignSelf: "center", width: "100%", height: 200 }}
                   source={{ uri: country.picture_url }}
                 >
                   <Tile>

@@ -25,7 +25,7 @@ class GalleryScreen extends React.Component {
   };
 
   uploadImage = async (uri, imageName) => {
-    const { username, navigation } = this.props;
+    const { username, navigation, handleRefresh } = this.props;
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
       const response = await fetch(this.state.image);
@@ -47,6 +47,7 @@ class GalleryScreen extends React.Component {
             .getDownloadURL()
             .then(url => {
               this.setState({ photo_URL: url }, () => {
+                handleRefresh();
                 navigation.navigate("Map");
               });
             });

@@ -18,23 +18,41 @@ import {
 class CitiesByCountryScreen extends Component {
   state = {
     cities: [],
-    isLoading: true
+    allLandmarks: [],
+    isLoading: true,
+    refresh: false
   };
 
   componentDidMount() {
     const { countryId } = this.props.navigation.state.params;
 
-    api
-      .fetchCitiesByCountry(countryId)
-      .then(cities => this.setState({ cities, isLoading: false }));
+    api.fetchCitiesByCountry(countryId).then(cities => {
+      cities
+        ? cities.map(city => {
+            if (city.city === "Manchester") {
+              api.fetchLandmarksByCity(city._id).then(landmarks =>
+                this.setState({
+                  allLandmarks: landmarks
+                })
+              );
+            }
+            this.setState({
+              cities,
+              isLoading: false
+            });
+          })
+        : null;
+    });
   }
 
   render() {
-    const { isLoading, cities } = this.state;
-    const { navigation } = this.props;
+    const { isLoading, cities, allLandmarks } = this.state;
+    const { navigation, screenProps } = this.props;
+    const { visitedLandmarks } = screenProps;
+
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
-        {!isLoading && cities ? (
+        {!isLoading && cities && allLandmarks ? (
           <ScrollView
             contentContainerStyle={{ paddingTop: 90, paddingBottom: 20 }}
           >
@@ -42,6 +60,7 @@ class CitiesByCountryScreen extends Component {
               Choose a city
             </Heading>
             {cities.map(city => {
+              const id = city._id;
               return (
                 <ScrollView
                   style={{
@@ -49,7 +68,7 @@ class CitiesByCountryScreen extends Component {
                     alignSelf: "center",
                     width: "85%"
                   }}
-                  key={city._id}
+                  key={id}
                 >
                   <Button
                     style={{
@@ -60,9 +79,10 @@ class CitiesByCountryScreen extends Component {
                     }}
                     onPress={() =>
                       navigation.navigate("Map", {
-                        cityId: city._id,
+                        cityId: id,
                         latitude: city.geolocation.coordinates[1],
-                        longitude: city.geolocation.coordinates[0]
+                        longitude: city.geolocation.coordinates[0],
+                        handleCitiesRefresh: this.handleCitiesRefresh
                       })
                     }
                   >
@@ -85,7 +105,17 @@ class CitiesByCountryScreen extends Component {
                           {city.city}
                         </Subtitle>
                         {/* REMEMBER TO PUT PROGRESS IN */}
-                        <Caption>Progress: 0%</Caption>
+                        <Caption>
+                          Progress:{" "}
+                          {allLandmarks[0] !== undefined &&
+                          allLandmarks[0].belongs_to._id === id
+                            ? `${Math.round(
+                                (visitedLandmarks.length /
+                                  allLandmarks.length) *
+                                  100
+                              )}%`
+                            : "0%"}
+                        </Caption>
                       </View>
                     </Card>
                   </Button>
@@ -105,7 +135,11 @@ class CitiesByCountryScreen extends Component {
           }
           centerComponent={<Title>Collections</Title>}
           rightComponent={
-            <Button onPress={() => navigation.goBack()}>
+            <Button
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
               <Text style={{ color: "black", marginRight: 5 }}>Back</Text>
             </Button>
           }
@@ -113,6 +147,10 @@ class CitiesByCountryScreen extends Component {
       </View>
     );
   }
+
+  handleCitiesRefresh = () => {
+    this.setState({ refresh: true });
+  };
 }
 
 export default CitiesByCountryScreen;

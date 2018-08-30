@@ -36,7 +36,8 @@ class App extends React.Component {
           avatar: testUser.picture_url,
           fullName: testUser.fullname,
           email: testUser.email,
-          handleLogOut: this.handleLogOut
+          handleLogOut: this.handleLogOut,
+          visitedLandmarks: testUser.visitedLandmarks
         }}
       />
     ) : (
@@ -48,9 +49,17 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    api
-      .fetchAllUsers()
-      .then(users => this.setState({ testUser: users[1], testPassword: "a" }));
+    api.fetchAllUsers().then(users =>
+      this.setState({
+        testUser: {
+          ...users[1],
+          visitedLandmarks: users[1].visitedLandmarks.filter(
+            (item, position, self) => self.indexOf(item) === position
+          )
+        },
+        testPassword: "a"
+      })
+    );
   }
 
   handleLogin = (username, password) => {
