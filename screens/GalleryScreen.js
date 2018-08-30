@@ -1,23 +1,23 @@
-import React from 'react';
-import { ImagePicker, Permissions } from 'expo';
-import { Image, View, Alert } from 'react-native';
-import * as firebase from 'firebase';
-import { NavigationBar, Icon, Title, Button, Text } from '@shoutem/ui';
+import React from "react";
+import { ImagePicker, Permissions } from "expo";
+import { Image, View, Alert } from "react-native";
+import * as firebase from "firebase";
+import { NavigationBar, Icon, Title, Button, Text } from "@shoutem/ui";
 
 class GalleryScreen extends React.Component {
   state = {
     image: null,
-    photo_URL: ''
+    photo_URL: ""
   };
 
   pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-    if (status === 'granted') {
+    if (status === "granted") {
       let result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         aspect: [4, 3],
-        mediaTypes: 'Images'
+        mediaTypes: "Images"
       });
 
       this.setState({ image: result.uri });
@@ -25,9 +25,9 @@ class GalleryScreen extends React.Component {
   };
 
   uploadImage = async (uri, imageName) => {
-    const { username, navigation } = this.props;
+    const { username, navigation, handleRefresh } = this.props;
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
+    if (status === "granted") {
       const response = await fetch(this.state.image);
       let result = await Expo.Location.getCurrentPositionAsync();
       const blob = await response.blob();
@@ -39,15 +39,16 @@ class GalleryScreen extends React.Component {
         .ref()
         .child(`${username}/` + filename)
         .put(blob)
-        .then((response) => {
+        .then(response => {
           firebase
             .storage()
             .ref(username)
             .child(filename)
             .getDownloadURL()
-            .then((url) => {
+            .then(url => {
+              handleRefresh();
               this.setState({ photo_URL: url }, () => {
-                navigation.navigate('Map');
+                navigation.navigate("Map");
               });
             });
         });
@@ -61,29 +62,34 @@ class GalleryScreen extends React.Component {
       fetch(
         `https://stamp-book-api.herokuapp.com/api/landmarks/${landmarkId}/checkLandmark`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
+            Accept: "application/json",
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({ body: this.state.photo_URL })
         }
       )
-        .then((response) => {
+        .then(response => {
           console.log(response.status);
           // response.status - Error 400 for fail, 201 for pass.
           if (response.status === 400) {
-            Alert.alert('You are not near the landmark!');
+            Alert.alert("You are not near the landmark!");
             return response.json();
-          } else {
-            Alert.alert('Photo uploaded!');
+          } else if (response.status === 201) {
+            Alert.alert("Photo uploaded!");
+            return response.json();
+          } else if (response.status === 503) {
+            Alert.alert(
+              "Service is currently unavailable. Please try again later"
+            );
             return response.json();
           }
         })
-        .then((responseJson) => {
+        .then(responseJson => {
           return responseJson.storedPhoto;
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error);
         });
     }
@@ -96,23 +102,40 @@ class GalleryScreen extends React.Component {
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#FFFFFF'
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#FFFFFF"
         }}
       >
         {image && (
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
-        <Button onPress={this.pickImage}>
-          <Text>Pick Image</Text>
+        <Button
+          style={{
+            width: 140,
+            marginTop: 20,
+            marginBottom: 12,
+            backgroundColor: "white",
+            borderColor: "darkgrey"
+          }}
+          onPress={this.pickImage}
+        >
+          <Text style={{ color: "black" }}>Pick Image</Text>
         </Button>
         {this.state.image ? (
-          <Button onPress={this.uploadImage}>
-            <Text>Upload Image</Text>
+          <Button
+            style={{
+              width: 140,
+              backgroundColor: "white",
+              borderColor: "darkgrey"
+            }}
+            onPress={this.uploadImage}
+          >
+            <Text style={{ color: "black" }}>Upload Image</Text>
           </Button>
         ) : null}
         <NavigationBar
+          style={{ container: { borderBottomColor: "#BDBDBD" } }}
           leftComponent={
             <Button onPress={() => navigation.openDrawer()}>
               <Icon name="sidebar" />
@@ -121,7 +144,7 @@ class GalleryScreen extends React.Component {
           centerComponent={<Title>Gallery</Title>}
           rightComponent={
             <Button onPress={() => navigation.goBack()}>
-              <Text style={{ color: 'black', marginRight: 5 }}>Back</Text>
+              <Text style={{ color: "black", marginRight: 5 }}>Back</Text>
             </Button>
           }
         />

@@ -31,7 +31,14 @@ class CountriesScreen extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         {!isLoading && (
-          <ScrollView contentContainerStyle={{ paddingTop: 90 }}>
+          <ScrollView
+            contentContainerStyle={{
+              paddingTop: 90,
+              paddingBottom: 20,
+              marginLeft: 5,
+              marginRight: 5
+            }}
+          >
             <Heading style={{ textAlign: "center", paddingBottom: 20 }}>
               Choose a country
             </Heading>
@@ -40,16 +47,19 @@ class CountriesScreen extends Component {
                 style={{
                   paddingLeft: 5,
                   paddingRight: 5,
-                  paddingVertical: 5
+                  paddingVertical: 10,
+                  width: "90%",
+                  alignSelf: "center"
                 }}
                 key={country._id}
               >
                 <ImageBackground
-                  styleName="featured"
+                  style={{ alignSelf: "center", width: "100%", height: 200 }}
                   source={{ uri: country.picture_url }}
                 >
                   <Tile>
                     <Button
+                      style={{ borderColor: "black", borderRadius: 3 }}
                       onPress={() =>
                         navigation.navigate("Cities", {
                           countryId: country._id
@@ -70,6 +80,7 @@ class CountriesScreen extends Component {
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
 
         <NavigationBar
+          style={{ container: { borderBottomColor: "#BDBDBD" } }}
           leftComponent={
             <Button onPress={() => navigation.openDrawer()}>
               <Icon name="sidebar" />

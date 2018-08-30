@@ -8,64 +8,118 @@ import {
   Button,
   Title,
   Icon,
-  Tile,
-  ImageBackground,
+  Image,
+  Subtitle,
+  Caption,
+  Card,
   Heading
 } from "@shoutem/ui";
 
 class CitiesByCountryScreen extends Component {
   state = {
     cities: [],
-    isLoading: true
+    allLandmarks: [],
+    isLoading: true,
+    refresh: false
   };
 
   componentDidMount() {
     const { countryId } = this.props.navigation.state.params;
 
-    api
-      .fetchCitiesByCountry(countryId)
-      .then(cities => this.setState({ cities, isLoading: false }));
+    api.fetchCitiesByCountry(countryId).then(cities => {
+      cities
+        ? cities.map(city => {
+            if (city.city === "Manchester") {
+              api.fetchLandmarksByCity(city._id).then(landmarks =>
+                this.setState({
+                  allLandmarks: landmarks
+                })
+              );
+            }
+            this.setState({
+              cities,
+              isLoading: false
+            });
+          })
+        : null;
+    });
   }
 
   render() {
-    const { isLoading, cities } = this.state;
-    const { navigation } = this.props;
+    const { isLoading, cities, allLandmarks } = this.state;
+    const { navigation, screenProps } = this.props;
+    const { visitedLandmarks } = screenProps;
+
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
-        {!isLoading && cities ? (
-          <ScrollView contentContainerStyle={{ paddingTop: 90 }}>
+        {!isLoading && cities && allLandmarks ? (
+          <ScrollView
+            contentContainerStyle={{ paddingTop: 90, paddingBottom: 20 }}
+          >
             <Heading style={{ textAlign: "center", paddingBottom: 20 }}>
               Choose a city
             </Heading>
             {cities.map(city => {
+              const id = city._id;
               return (
-                <View
+                <ScrollView
                   style={{
-                    paddingLeft: 5,
-                    paddingRight: 5,
-                    paddingVertical: 5
+                    paddingVertical: 8,
+                    alignSelf: "center",
+                    width: "85%"
                   }}
-                  key={city._id}
+                  key={id}
                 >
-                  <ImageBackground
-                    styleName="featured"
-                    source={{ uri: city.picture_url }}
+                  <Button
+                    style={{
+                      width: "100%",
+                      height: 300,
+                      paddingLeft: 0,
+                      paddingRight: 0
+                    }}
+                    onPress={() =>
+                      navigation.navigate("Map", {
+                        cityId: id,
+                        latitude: city.geolocation.coordinates[1],
+                        longitude: city.geolocation.coordinates[0],
+                        handleCitiesRefresh: this.handleCitiesRefresh
+                      })
+                    }
                   >
-                    <Tile>
-                      <Button
-                        onPress={() =>
-                          navigation.navigate("Map", {
-                            cityId: city._id,
-                            latitude: city.geolocation.coordinates[1],
-                            longitude: city.geolocation.coordinates[0]
-                          })
-                        }
-                      >
-                        <Text styleName="md-gutter-bottom">{city.city}</Text>
-                      </Button>
-                    </Tile>
-                  </ImageBackground>
-                </View>
+                    <Card
+                      style={{
+                        width: "100%",
+                        borderColor: "#151515",
+                        borderWidth: 1
+                      }}
+                    >
+                      <Image
+                        style={{
+                          width: "100%",
+                          height: "80%"
+                        }}
+                        source={{ uri: city.picture_url }}
+                      />
+                      <View styleName="content horizontal v-center space-between">
+                        <Subtitle style={{ marginBottom: 0 }}>
+                          {city.city}
+                        </Subtitle>
+                        {/* REMEMBER TO PUT PROGRESS IN */}
+                        <Caption>
+                          Progress:{" "}
+                          {allLandmarks[0] !== undefined &&
+                          allLandmarks[0].belongs_to._id === id
+                            ? `${Math.round(
+                                (visitedLandmarks.length /
+                                  allLandmarks.length) *
+                                  100
+                              )}%`
+                            : "0%"}
+                        </Caption>
+                      </View>
+                    </Card>
+                  </Button>
+                </ScrollView>
               );
             })}
           </ScrollView>
@@ -73,6 +127,7 @@ class CitiesByCountryScreen extends Component {
 
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
         <NavigationBar
+          style={{ container: { borderBottomColor: "#BDBDBD" } }}
           leftComponent={
             <Button onPress={() => navigation.openDrawer()}>
               <Icon name="sidebar" />
@@ -80,7 +135,11 @@ class CitiesByCountryScreen extends Component {
           }
           centerComponent={<Title>Collections</Title>}
           rightComponent={
-            <Button onPress={() => navigation.goBack()}>
+            <Button
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
               <Text style={{ color: "black", marginRight: 5 }}>Back</Text>
             </Button>
           }
@@ -88,6 +147,10 @@ class CitiesByCountryScreen extends Component {
       </View>
     );
   }
+
+  handleCitiesRefresh = () => {
+    this.setState({ refresh: true });
+  };
 }
 
 export default CitiesByCountryScreen;

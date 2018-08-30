@@ -25,12 +25,14 @@ class LogInScreen extends Component {
           />
 
           <TextInput
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
             style={{
               width: 200,
               height: 30,
               marginBottom: 10,
-              borderBottomWidth: 0.5,
-              borderBottomColor: "grey",
+              borderBottomWidth: 1,
+              borderBottomColor: "darkgrey",
               textAlign: "center"
             }}
             value={this.state.username}
@@ -41,12 +43,14 @@ class LogInScreen extends Component {
           />
 
           <TextInput
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
             style={{
               width: 200,
               height: 30,
               marginBottom: 50,
-              borderBottomWidth: 0.5,
-              borderBottomColor: "grey",
+              borderBottomWidth: 1,
+              borderBottomColor: "darkgrey",
               textAlign: "center"
             }}
             value={this.state.password}
