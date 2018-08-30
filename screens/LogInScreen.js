@@ -32,7 +32,7 @@ class LogInScreen extends Component {
               height: 30,
               marginBottom: 10,
               borderBottomWidth: 1,
-              borderBottomColor: "darkgrey",
+              borderBottomColor: "#1C1C1C",
               textAlign: "center"
             }}
             value={this.state.username}
@@ -40,6 +40,7 @@ class LogInScreen extends Component {
             onKeyPress={this.props.handleKeydown}
             autoCapitalize="none"
             placeholder={"Please enter your username"}
+            placeholderTextColor="#424242"
           />
 
           <TextInput
@@ -50,13 +51,14 @@ class LogInScreen extends Component {
               height: 30,
               marginBottom: 50,
               borderBottomWidth: 1,
-              borderBottomColor: "darkgrey",
+              borderBottomColor: "#424242",
               textAlign: "center"
             }}
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
             onKeyPress={this.props.handleKeydown}
             placeholder={"Please enter your password"}
+            placeholderTextColor="#1C1C1C"
             autoCapitalize="none"
             secureTextEntry
           />
