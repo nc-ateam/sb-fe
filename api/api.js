@@ -33,3 +33,9 @@ export const fetchAllUsers = () => {
     .then(response => response.json())
     .then(responseJson => responseJson.users);
 };
+
+export const fetchSingleUser = userId => {
+  return fetch(`https://stamp-book-api.herokuapp.com/api/users/${userId}`)
+    .then(response => response.json())
+    .then(responseJson => responseJson.user);
+};

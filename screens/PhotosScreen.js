@@ -211,7 +211,7 @@ export default class CameraScreen extends React.Component {
         username={this.props.navigation.state.params.username}
         navigation={this.props.navigation}
         onPress={this.toggleView.bind(this)}
-        handleRefresh={this.props.navigation.state.params.handleRefresh}
+        onRefresh={this.props.navigation.state.params.onRefresh}
       />
     );
   }
