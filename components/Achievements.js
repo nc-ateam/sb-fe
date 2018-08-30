@@ -72,6 +72,7 @@ class Achievements extends Component {
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <Button
                   onPress={() => {
+                    handleCloseButton();
                     navigation.navigate("Photo", {
                       landmarkId,
                       username,
