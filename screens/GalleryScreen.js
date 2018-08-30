@@ -110,12 +110,28 @@ class GalleryScreen extends React.Component {
         {image && (
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
-        <Button onPress={this.pickImage}>
-          <Text>Pick Image</Text>
+        <Button
+          style={{
+            width: 140,
+            marginTop: 20,
+            marginBottom: 12,
+            backgroundColor: "white",
+            borderColor: "darkgrey"
+          }}
+          onPress={this.pickImage}
+        >
+          <Text style={{ color: "black" }}>Pick Image</Text>
         </Button>
         {this.state.image ? (
-          <Button onPress={this.uploadImage}>
-            <Text>Upload Image</Text>
+          <Button
+            style={{
+              width: 140,
+              backgroundColor: "white",
+              borderColor: "darkgrey"
+            }}
+            onPress={this.uploadImage}
+          >
+            <Text style={{ color: "black" }}>Upload Image</Text>
           </Button>
         ) : null}
         <NavigationBar
