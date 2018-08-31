@@ -28,7 +28,8 @@ class MapScreen extends Component {
     isLoading: true,
     screenHeight: 0,
     landmarkId: "",
-    landmarkName: ""
+    landmarkName: "",
+    refreshing: false
   };
 
   render() {
@@ -43,7 +44,7 @@ class MapScreen extends Component {
     } = this.state;
     const { screenProps, navigation } = this.props;
     const { userId, username } = screenProps;
-    const { visitedLandmarks, onRefresh } = this.props.navigation.state.params;
+    const { onRefresh, visitedLandmarks } = this.props.navigation.state.params;
 
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -144,7 +145,8 @@ class MapScreen extends Component {
       const {
         cityId,
         latitude,
-        longitude
+        longitude,
+        visitedLandmarks
       } = this.props.navigation.state.params;
       api.fetchLandmarksByCity(cityId).then(landmarks => {
         this.setState({

@@ -60,7 +60,11 @@ class App extends React.Component {
   handleLogin = (username, password) => {
     const { users, testPassword } = this.state;
     const testUser = users[1];
-    if (testUser.username === username && testPassword === password) {
+    if (
+      testUser.username &&
+      testUser.username === username &&
+      testPassword === password
+    ) {
       this.setState({ loggedIn: true });
     } else {
       Alert.alert("Invalid username/password");

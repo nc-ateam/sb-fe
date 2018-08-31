@@ -46,9 +46,9 @@ class GalleryScreen extends React.Component {
             .child(filename)
             .getDownloadURL()
             .then(url => {
-              onRefresh();
               this.setState({ photo_URL: url }, () => {
-                navigation.navigate("Map");
+                onRefresh();
+                navigation.navigate("Cities");
               });
             });
         });

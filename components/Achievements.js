@@ -25,7 +25,8 @@ class Achievements extends Component {
       navigation,
       username,
       handleCloseButton,
-      onRefresh
+      onRefresh,
+      onMapRefresh
     } = this.props;
     return !isLoading ? (
       <View
