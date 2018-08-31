@@ -48,7 +48,7 @@ class App extends React.Component {
     );
   }
 
-  componentDidMount() {
+  componentWillMount() {
     api.fetchAllUsers().then(users =>
       this.setState({
         users,

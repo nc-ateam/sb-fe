@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GalleryScreen /> creates a screenshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#FFFFFF",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "white",
+        "borderColor": "darkgrey",
+        "borderRadius": 2,
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "marginBottom": 12,
+        "marginTop": 20,
+        "opacity": 1,
+        "paddingLeft": 15,
+        "paddingRight": 5,
+        "width": 140,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      animationOptions={Object {}}
+      ellipsizeMode="tail"
+      onLayout={[Function]}
+      style={
+        Object {
+          "backgroundColor": "transparent",
+          "color": "black",
+          "fontFamily": "Rubik-Regular",
+          "fontSize": 12,
+          "fontStyle": "normal",
+          "fontWeight": "600",
+          "letterSpacing": 1,
+          "marginBottom": 12,
+          "marginRight": 10,
+          "marginTop": 12,
+        }
+      }
+    >
+      Pick Image
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "borderBottomColor": "#BDBDBD",
+        "borderBottomWidth": 1,
+        "bottom": 0,
+        "height": 70,
+        "left": 0,
+        "paddingTop": 20,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-end",
+          "backgroundColor": "transparent",
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "alignSelf": "center",
+            "flex": 1,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          isTVSelectable={true}
+          onLayout={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "transparent",
+              "borderColor": "#ffffff",
+              "borderRadius": 0,
+              "borderWidth": 0,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "opacity": 1,
+              "paddingLeft": 9,
+              "paddingRight": 9,
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={false}
+            animationOptions={Object {}}
+            ellipsizeMode="tail"
+            onLayout={[Function]}
+            style={
+              Array [
+                Object {
+                  "color": undefined,
+                  "fontSize": 12,
+                },
+                Object {
+                  "backgroundColor": "transparent",
+                  "color": "#222222",
+                  "fontSize": 24,
+                  "marginBottom": 9,
+                  "marginRight": 0,
+                  "marginTop": 9,
+                  "textAlign": "center",
+                  "textAlignVertical": "center",
+                },
+                Object {
+                  "fontFamily": "rubicon-icon-font",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+              ]
+            }
+          >
+            
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flex": 1,
+            "marginBottom": 0,
+          }
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          animationOptions={Object {}}
+          ellipsizeMode="tail"
+          onLayout={[Function]}
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "color": "#222222",
+              "fontFamily": "Rubik-Regular",
+              "fontSize": 15,
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+              "lineHeight": 18,
+            }
+          }
+        >
+          Gallery
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "alignSelf": "center",
+            "flex": 1,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          isTVSelectable={true}
+          onLayout={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "transparent",
+              "borderColor": "#ffffff",
+              "borderRadius": 0,
+              "borderWidth": 0,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "opacity": 1,
+              "paddingLeft": 9,
+              "paddingRight": 9,
+            }
+          }
+        >
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            animationOptions={Object {}}
+            ellipsizeMode="tail"
+            onLayout={[Function]}
+            style={
+              Object {
+                "backgroundColor": "transparent",
+                "color": "black",
+                "fontFamily": "Rubik-Regular",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+                "letterSpacing": 0,
+                "marginBottom": 12,
+                "marginRight": 5,
+                "marginTop": 12,
+              }
+            }
+          >
+            Back
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
