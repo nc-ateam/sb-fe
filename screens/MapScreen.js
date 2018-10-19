@@ -29,7 +29,7 @@ class MapScreen extends Component {
     screenHeight: 0,
     landmarkId: "",
     landmarkName: "",
-    refresh: false
+    refreshing: false
   };
 
   render() {
@@ -42,9 +42,9 @@ class MapScreen extends Component {
       landmarkId,
       landmarkName
     } = this.state;
-    const { handleCitiesRefresh } = this.props.navigation.state.params;
     const { screenProps, navigation } = this.props;
-    const { userId, username, visitedLandmarks } = screenProps;
+    const { userId, username } = screenProps;
+    const { onRefresh, visitedLandmarks } = this.props.navigation.state.params;
 
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -114,6 +114,7 @@ class MapScreen extends Component {
             navigation={navigation}
             landmarkName={landmarkName}
             landmarkId={landmarkId}
+            onRefresh={onRefresh}
           />
         ) : null}
         {/* navigation bar should stay at the bottom otherwise {flex: 1} causes button to not work */}
@@ -128,7 +129,6 @@ class MapScreen extends Component {
           rightComponent={
             <Button
               onPress={() => {
-                handleCitiesRefresh();
                 navigation.goBack();
               }}
             >
@@ -145,7 +145,8 @@ class MapScreen extends Component {
       const {
         cityId,
         latitude,
-        longitude
+        longitude,
+        visitedLandmarks
       } = this.props.navigation.state.params;
       api.fetchLandmarksByCity(cityId).then(landmarks => {
         this.setState({
@@ -198,10 +199,6 @@ class MapScreen extends Component {
       landmarkId: "",
       landmarkName: ""
     });
-  };
-
-  handleRefresh = () => {
-    this.setState({ refresh: true });
   };
 }
 

@@ -29,7 +29,10 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|react-navigation|native-base-shoutem-theme|@shoutem/animation|@shoutem/ui|@shoutem/theme|tcomb-form-native|@expo|expo)"
+    ]
   },
   "dependencies": {
     "@shoutem/ui": "^0.23.4",

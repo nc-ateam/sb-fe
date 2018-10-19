@@ -11,7 +11,6 @@ React 16.3.1
 React-Native 0.55.2
 React-Native-Camera 1.2.0
 React-Native-Maps 0.21.0
-React-Native-Router-Flux 4.0.1
 React-Navigation 2.11.2
 Expo 27.1.1
 Shoutem/ui 0.23.4
@@ -36,7 +35,7 @@ For `macOS` users, it is possible to open the app in a simulator. You will need 
 
 ### Potential Issue -
 
-If you're using `macOS` to build the app in `expo`, you may run into [this issue](https://github.com/nc-ateam/sb-fe/issues/76) regarding system resources. 
+If you're using `macOS` to build the app in `expo`, you may run into [this issue](https://github.com/nc-ateam/sb-fe/issues/76) regarding system resources.
 
 ## Authors
 

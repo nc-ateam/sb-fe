@@ -23,12 +23,13 @@ firebase.initializeApp(ApiKeys.FirebaseConfig);
 class App extends React.Component {
   state = {
     loggedIn: false,
-    testUser: {},
+    users: [],
     testPassword: ""
   };
   render() {
-    const { loggedIn, testUser } = this.state;
-    return loggedIn ? (
+    const { loggedIn, users } = this.state;
+    const testUser = users[1];
+    return loggedIn && testUser ? (
       <DrawerNavigator
         screenProps={{
           userId: testUser._id,
@@ -36,8 +37,7 @@ class App extends React.Component {
           avatar: testUser.picture_url,
           fullName: testUser.fullname,
           email: testUser.email,
-          handleLogOut: this.handleLogOut,
-          visitedLandmarks: testUser.visitedLandmarks
+          handleLogOut: this.handleLogOut
         }}
       />
     ) : (
@@ -48,23 +48,23 @@ class App extends React.Component {
     );
   }
 
-  componentDidMount() {
+  componentWillMount() {
     api.fetchAllUsers().then(users =>
       this.setState({
-        testUser: {
-          ...users[1],
-          visitedLandmarks: users[1].visitedLandmarks.filter(
-            (item, position, self) => self.indexOf(item) === position
-          )
-        },
+        users,
         testPassword: "a"
       })
     );
   }
 
   handleLogin = (username, password) => {
-    const { testUser, testPassword } = this.state;
-    if (testUser.username === username && testPassword === password) {
+    const { users, testPassword } = this.state;
+    const testUser = users[1];
+    if (
+      testUser.username &&
+      testUser.username === username &&
+      testPassword === password
+    ) {
       this.setState({ loggedIn: true });
     } else {
       Alert.alert("Invalid username/password");

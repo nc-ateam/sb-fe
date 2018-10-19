@@ -25,7 +25,8 @@ class Achievements extends Component {
       navigation,
       username,
       handleCloseButton,
-      handleRefresh
+      onRefresh,
+      onMapRefresh
     } = this.props;
     return !isLoading ? (
       <View
@@ -76,7 +77,7 @@ class Achievements extends Component {
                     navigation.navigate("Photo", {
                       landmarkId,
                       username,
-                      handleRefresh
+                      onRefresh
                     });
                   }}
                   style={{
@@ -156,10 +157,7 @@ class Achievements extends Component {
                   }}
                 >
                   <Image
-                    style={{
-                      width: 180,
-                      height: 180
-                    }}
+                    style={{ width: 180, height: 180 }}
                     source={{
                       uri: `${
                         photo.firebase_url // resizeMode="contain"

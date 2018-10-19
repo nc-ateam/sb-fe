@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as api from "../api/api";
-import { ScrollView } from "react-native";
+import { ScrollView, RefreshControl } from "react-native";
 import {
   View,
   Text,
@@ -20,41 +20,30 @@ class CitiesByCountryScreen extends Component {
     cities: [],
     allLandmarks: [],
     isLoading: true,
-    refresh: false
+    refreshing: false,
+    visitedLandmarks: []
   };
 
   componentDidMount() {
-    const { countryId } = this.props.navigation.state.params;
-
-    api.fetchCitiesByCountry(countryId).then(cities => {
-      cities
-        ? cities.map(city => {
-            if (city.city === "Manchester") {
-              api.fetchLandmarksByCity(city._id).then(landmarks =>
-                this.setState({
-                  allLandmarks: landmarks
-                })
-              );
-            }
-            this.setState({
-              cities,
-              isLoading: false
-            });
-          })
-        : null;
-    });
+    this.fetchData();
   }
 
   render() {
-    const { isLoading, cities, allLandmarks } = this.state;
-    const { navigation, screenProps } = this.props;
-    const { visitedLandmarks } = screenProps;
+    const { isLoading, cities, allLandmarks, visitedLandmarks } = this.state;
+    const { navigation } = this.props;
 
+    console.log(this.state.refreshing);
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <View style={{ flex: 1, paddingTop: 90, backgroundColor: "white" }}>
         {!isLoading && cities && allLandmarks ? (
           <ScrollView
-            contentContainerStyle={{ paddingTop: 90, paddingBottom: 20 }}
+            contentContainerStyle={{ paddingBottom: 20 }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
           >
             <Heading style={{ textAlign: "center", paddingBottom: 20 }}>
               Choose a city
@@ -82,7 +71,8 @@ class CitiesByCountryScreen extends Component {
                         cityId: id,
                         latitude: city.geolocation.coordinates[1],
                         longitude: city.geolocation.coordinates[0],
-                        handleCitiesRefresh: this.handleCitiesRefresh
+                        visitedLandmarks: visitedLandmarks,
+                        onRefresh: this._onRefresh
                       })
                     }
                   >
@@ -94,10 +84,7 @@ class CitiesByCountryScreen extends Component {
                       }}
                     >
                       <Image
-                        style={{
-                          width: "100%",
-                          height: "80%"
-                        }}
+                        style={{ width: "100%", height: "80%" }}
                         source={{ uri: city.picture_url }}
                       />
                       <View styleName="content horizontal v-center space-between">
@@ -148,8 +135,37 @@ class CitiesByCountryScreen extends Component {
     );
   }
 
-  handleCitiesRefresh = () => {
-    this.setState({ refresh: true });
+  fetchData = () => {
+    return api
+      .fetchSingleUser(this.props.screenProps.userId)
+      .then(user => this.setState({ visitedLandmarks: user.visitedLandmarks }))
+      .then(() =>
+        api
+          .fetchCitiesByCountry(this.props.navigation.state.params.countryId)
+          .then(cities => {
+            cities
+              ? cities.map(city => {
+                  if (city.city === "Manchester") {
+                    api.fetchLandmarksByCity(city._id).then(landmarks =>
+                      this.setState({
+                        allLandmarks: landmarks
+                      })
+                    );
+                  }
+                  this.setState({
+                    cities,
+                    isLoading: false
+                  });
+                })
+              : null;
+          })
+      );
+  };
+
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+
+    this.fetchData().then(() => this.setState({ refreshing: false }));
   };
 }
 
